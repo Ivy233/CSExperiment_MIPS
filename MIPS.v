@@ -1,7 +1,11 @@
-`include "PC.v"
-`include "Instr_Mem.v"
+`include "ALU.v"
+`include "Ctrl.v"
 `include "Ext.v"
+`include "Instr_Mem.v"
+`include "Mem.v"
 `include "MUX.v"
+`include "Next_PC.v"
+`include "PC.v"
 module MIPS();
     //clk & rst
     reg clk, reset;

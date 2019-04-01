@@ -1,5 +1,7 @@
 `include "PC.v"
 `include "Instr_Mem.v"
+`include "Ext.v"
+`include "MUX.v"
 module MIPS();
     //clk & rst
     reg clk, reset;
@@ -18,8 +20,8 @@ module MIPS();
 
     //ctrl
     wire[4:0] Ctrl_alu;//alu
-    wire[1:0] Ctrl_regDst, Ctrl_aluSrcA, Ctrl_aluSrcB, Ctrl_Mem2Reg, Ctrl_ext;//MUX
-    wire Ctrl_regWr, Ctrl_MemWr, Ctrl_jump, Ctrl_branch;
+    wire[1:0] Ctrl_regDst, Ctrl_aluSrcA, Ctrl_aluSrcB, Ctrl_Mem2Reg;//MUX
+    wire Ctrl_regWr, Ctrl_MemWr, Ctrl_ext;
 
     //reg_out & alu_input & Mem
     wire[31:0] reg_out1, reg_out2, alu_input1, alu_input2;
@@ -37,12 +39,15 @@ module MIPS();
         .pc_cur(pc_cur)//output
     );
     Next_PC U_Next_PC(
+        .clk(clk),
         .pc_cur(pc_cur),
         .op(instr[31:26]),
-        .branch_data(instr[15:0]),
+        .funct(instr[5:0]),
+        .branch_delta(instr[15:0]),
         .jumpToWhere(instr[25:0]),
-        .pc_next(pc_next),
-    )
+        .aluout(alu_output)
+        .pc_next(pc_next)//output
+    );
 
     Instr_Mem U_Instr_Mem(
         .mem_addr(pc_cur);
@@ -53,6 +58,14 @@ module MIPS();
         .op(instr[31:26]),
         .funct(instr[5:0]),
         //output
+        .Ctrl_alu(Ctrl_alu),
+        .Ctrl_regDst(Ctrl_regDst),
+        .Ctrl_aluSrcA(Ctrl_aluSrcA),
+        .Ctrl_aluSrcB(Ctrl_aluSrcB),
+        .Ctrl_Mem2Reg(Ctrl_Mem2Reg),
+        .Ctrl_ext(Ctrl_ext);
+        .Ctrl_regWr(Ctrl_regWr),
+        .Ctrl_MemWr(Ctrl_MemWr),
     );
 
     Ext U_Ext(
@@ -61,10 +74,10 @@ module MIPS();
         .output_imm_32(Ext_imm_16)//output
     );
 
-    MUX Choose_Rt_Rd(
+    MUX #(5) Choose_Rt_Rd(
         .a(instr[20:16]),
         .b(instr[15:11]),
-        .Ctrl_MUX(Ctrl_regWr),
+        .Ctrl_MUX(Ctrl_regDst),
         .MUX_output(RegFile_write_import)//output
     );
 
@@ -73,19 +86,20 @@ module MIPS();
         .Read_import2(instr[20:16]),
         .Write_import(RegFile_write_import),
         .Write_data(Mem_RegFile_write_data),
+        .Ctrl_regWr(Ctrl_regWr),
 
         //output
         .Rout1(reg_out1),
         .Rout2(reg_out2)
     );
 
-    MUX choose_aluinput1(
+    MUX #(32) choose_aluinput1(
         .a(reg_out1),
-        .b(32'h00000100),
+        .b(32'h00000100),//lui
         .Ctrl_MUX(Ctrl_aluSrcA),
         .MUX_output(alu_input1)//output
     );
-    MUX choose_aluinput2(
+    MUX #(32) choose_aluinput2(
         .a(reg_out2),
         .b({ {27{1'b0}} , ins[10:6]}),
         .c(Ext_imm_16),
@@ -104,6 +118,7 @@ module MIPS();
         .input_pos(alu_output),
         .input_data(alu_input2),
         .Ctrl_MemWr(Ctrl_MemWr),
+        .clk(clk),
         .Mem_output(Mem_output)//output
     );
 

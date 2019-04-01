@@ -85,6 +85,7 @@ module MIPS();
     );
 
     RegFile U_Regfile(
+        .clk(clk),
         .Read_import1(instr[25:21]),
         .Read_import2(instr[20:16]),
         .Write_import(RegFile_write_import),

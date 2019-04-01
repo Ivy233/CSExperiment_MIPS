@@ -1,3 +1,5 @@
 *.mpf
 *.mti
+*.txt
+*.wlf
 /work/

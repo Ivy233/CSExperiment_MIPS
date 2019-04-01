@@ -10,7 +10,8 @@ module MIPS();
     //clk & rst
     reg clk, reset;
     initial begin
-        clk = 0;
+        $readmemh("Instr_MIPS.txt", U_Instr_Mem.Instrs);
+        clk = 1;
         reset = 1;
         #20 reset = 0;
     end
@@ -53,7 +54,7 @@ module MIPS();
     );
 
     Instr_Mem U_Instr_Mem(
-        .mem_addr(pc_cur),
+        .pc_cur(pc_cur[7:2]),
         .instr(instr)//output
     );
 

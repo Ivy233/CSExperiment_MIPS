@@ -8,7 +8,7 @@ module Ctrl(
     input[5:0] funct;
     output reg[4:0] Ctrl_alu;
     output reg[1:0] Ctrl_regDst, Ctrl_aluSrcA, Ctrl_aluSrcB, Ctrl_Mem2Reg;
-    output reg Ctrl_regWr, Ctrl_MemWr, Ctrl_jump, Ctrl_branch, Ctrl_ext;
+    output reg Ctrl_regWr, Ctrl_MemWr, Ctrl_ext;
 
     // Operation code;
 	parameter  	R 				= 6'b000000,
@@ -50,183 +50,182 @@ module Ctrl(
                 Ctrl_regWr <= 1'b1;
                 case (funct)
                     ADD:begin
-                        Ctrl_aluSrcB <= 2'00;
+                        Ctrl_aluSrcB <= 2'b00;
                         Ctrl_alu <= 5'b00000;
                     end
                     ADDU:begin
-                        Ctrl_aluSrcB <= 2'00;
+                        Ctrl_aluSrcB <= 2'b00;
                         Ctrl_alu <= 5'b00000;
                     end
                     SUB:begin
-                        Ctrl_aluSrcB <= 2'00;
+                        Ctrl_aluSrcB <= 2'b00;
                         Ctrl_alu <= 5'b00001;
                     end
                     SUBU:begin
-                        Ctrl_aluSrcB <= 2'00;
+                        Ctrl_aluSrcB <= 2'b00;
                         Ctrl_alu <= 5'b00001;
                     end
 
                     SLL:begin
-                        Ctrl_aluSrcB <= 2'01;
+                        Ctrl_aluSrcB <= 2'b01;
                         Ctrl_alu <= 5'b00010;
                     end
                     SRL:begin
-                        Ctrl_aluSrcB <= 2'01;
+                        Ctrl_aluSrcB <= 2'b01;
                         Ctrl_alu <= 5'b00011;
                     end
                     SRL:begin
-                        Ctrl_aluSrcB <= 2'01;
+                        Ctrl_aluSrcB <= 2'b01;
                         Ctrl_alu <= 5'b00011;
                     end
 
                     AND:begin
-                        Ctrl_aluSrcB <= 2'00;
+                        Ctrl_aluSrcB <= 2'b00;
                         Ctrl_alu <= 5'b00101;
                     end
                     OR:begin
-                        Ctrl_aluSrcB <= 2'00;
+                        Ctrl_aluSrcB <= 2'b00;
                         Ctrl_alu <= 5'b00110;
                     end
                     XOR:begin
-                        Ctrl_aluSrcB <= 2'00;
+                        Ctrl_aluSrcB <= 2'b00;
                         Ctrl_alu <= 5'b00111;
                     end
                     NOR:begin
-                        Ctrl_aluSrcB <= 2'00;
+                        Ctrl_aluSrcB <= 2'b00;
                         Ctrl_alu <= 5'b01010;
                     end
 
                     SLT:begin
-                        Ctrl_aluSrcB <= 2'00;
+                        Ctrl_aluSrcB <= 2'b00;
                         Ctrl_alu <= 5'b00100;
                     end
                     SLTU:begin
-                        Ctrl_aluSrcB <= 2'00;
+                        Ctrl_aluSrcB <= 2'b00;
                         Ctrl_alu <= 5'b01000;
                     end
                 endcase
-                ADDIU:begin
-                    Ctrl_alu <= 5'b00000;
-                    Ctrl_regDst <= 2'b00;
-                    Ctrl_aluSrcA <= 2'b00;
-                    Ctrl_aluSrcB <= 2'b10;
-                    Ctrl_Mem2Reg <= 2'b00;
-                    Ctrl_regWr <= 1'b1;
-                    Ctrl_MemWr <= 1'b0;
-                    Ctrl_ext <= 1'b0;
-                end
-                SLTI:begin
-                    Ctrl_alu <= 5'b00100;
-                    Ctrl_regDst <= 2'b00;
-                    Ctrl_aluSrcA <= 2'b00;
-                    Ctrl_aluSrcB <= 2'b10;
-                    Ctrl_Mem2Reg <= 2'b00;
-                    Ctrl_regWr <= 1'b1;
-                    Ctrl_MemWr <= 1'b0;
-                    Ctrl_ext <= 1'b1;
-                end
-                SLTIU:begin
-                    Ctrl_alu <= 5'b01000;
-                    Ctrl_regDst <= 2'b00;
-                    Ctrl_aluSrcA <= 2'b00;
-                    Ctrl_aluSrcB <= 2'b10;
-                    Ctrl_Mem2Reg <= 2'b00;
-                    Ctrl_regWr <= 1'b1;
-                    Ctrl_MemWr <= 1'b0;
-                    Ctrl_ext <= 1'b0;
-                end
-                ANDI:begin
-                    Ctrl_alu <= 5'b00101;
-                    Ctrl_regDst <= 2'b00;
-                    Ctrl_aluSrcA <= 2'b00;
-                    Ctrl_aluSrcB <= 2'b10;
-                    Ctrl_Mem2Reg <= 2'b00;
-                    Ctrl_regWr <= 1'b1;
-                    Ctrl_MemWr <= 1'b0;
-                    Ctrl_ext <= 1'b0;
-                end
-                ORI:begin
-                    Ctrl_alu <= 5'b00110;
-                    Ctrl_regDst <= 2'b00;
-                    Ctrl_aluSrcA <= 2'b00;
-                    Ctrl_aluSrcB <= 2'b10;
-                    Ctrl_Mem2Reg <= 2'b00;
-                    Ctrl_regWr <= 1'b1;
-                    Ctrl_MemWr <= 1'b0;
-                    Ctrl_ext <= 1'b0;
-                end
-                XORI:begin
-                    Ctrl_alu <= 5'b00111;
-                    Ctrl_regDst <= 2'b00;
-                    Ctrl_aluSrcA <= 2'b00;
-                    Ctrl_aluSrcB <= 2'b10;
-                    Ctrl_Mem2Reg <= 2'b00;
-                    Ctrl_regWr <= 1'b1;
-                    Ctrl_MemWr <= 1'b0;
-                    Ctrl_ext <= 1'b0;
-                end
-                LUI:begin
-                    Ctrl_alu <= 5'b00010;
-                    Ctrl_regDst <= 2'b00;
-                    Ctrl_aluSrcA <= 2'b01;
-                    Ctrl_aluSrcB <= 2'b10;
-                    Ctrl_Mem2Reg <= 2'b00;
-                    Ctrl_regWr <= 1'b1;
-                    Ctrl_MemWr <= 1'b0;
-                    Ctrl_ext <= 1'b0;
-                end
-                LW:begin
-                    Ctrl_alu <= 5'b00000;
-                    Ctrl_regDst <= 2'b00;
-                    Ctrl_aluSrcA <= 2'b00;
-                    Ctrl_aluSrcB <= 2'b10;
-                    Ctrl_Mem2Reg <= 2'b01;
-                    Ctrl_regWr <= 1'b1;
-                    Ctrl_MemWr <= 1'b0;
-                    Ctrl_ext <= 1'b0;
-                end
-                SW:begin
-                    Ctrl_alu <= 5'b00000;
-                    Ctrl_regDst <= 2'b00;
-                    Ctrl_aluSrcA <= 2'b00;
-                    Ctrl_aluSrcB <= 2'b10;
-                    Ctrl_Mem2Reg <= 2'b00;
-                    Ctrl_regWr <= 1'b0;
-                    Ctrl_MemWr <= 1'b1;
-                    Ctrl_ext <= 1'b0;
-                end
-                BEQ:begin
-                    Ctrl_alu <= 5'b00001;
-                    Ctrl_regDst <= 2'b00;
-                    Ctrl_aluSrcA <= 2'b00;
-                    Ctrl_aluSrcB <= 2'b00;
-                    Ctrl_Mem2Reg <= 2'b00;
-                    Ctrl_regWr <= 1'b0;
-                    Ctrl_MemWr <= 1'b0;
-                    Ctrl_ext <= 1'b1;
-                end
-                BNE:begin
-                    Ctrl_alu <= 5'b00001;
-                    Ctrl_regDst <= 2'b00;
-                    Ctrl_aluSrcA <= 2'b00;
-                    Ctrl_aluSrcB <= 2'b00;
-                    Ctrl_Mem2Reg <= 2'b00;
-                    Ctrl_regWr <= 1'b0;
-                    Ctrl_MemWr <= 1'b0;
-                    Ctrl_ext <= 1'b1;
-                end
-                J:begin
-                    Ctrl_alu <= 5'b00000;
-                    Ctrl_regDst <= 2'b00;
-                    Ctrl_aluSrcA <= 2'b00;
-                    Ctrl_aluSrcB <= 2'b00;
-                    Ctrl_Mem2Reg <= 2'b00;
-                    Ctrl_regWr <= 1'b0;
-                    Ctrl_MemWr <= 1'b0;
-                    Ctrl_ext <= 1'b0;
-                end
             end
-            default:
+            ADDIU:begin
+                Ctrl_alu <= 5'b00000;
+                Ctrl_regDst <= 2'b00;
+                Ctrl_aluSrcA <= 2'b00;
+                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_Mem2Reg <= 2'b00;
+                Ctrl_regWr <= 1'b1;
+                Ctrl_MemWr <= 1'b0;
+                Ctrl_ext <= 1'b0;
+            end
+            SLTI:begin
+                Ctrl_alu <= 5'b00100;
+                Ctrl_regDst <= 2'b00;
+                Ctrl_aluSrcA <= 2'b00;
+                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_Mem2Reg <= 2'b00;
+                Ctrl_regWr <= 1'b1;
+                Ctrl_MemWr <= 1'b0;
+                Ctrl_ext <= 1'b1;
+            end
+            SLTIU:begin
+                Ctrl_alu <= 5'b01000;
+                Ctrl_regDst <= 2'b00;
+                Ctrl_aluSrcA <= 2'b00;
+                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_Mem2Reg <= 2'b00;
+                Ctrl_regWr <= 1'b1;
+                Ctrl_MemWr <= 1'b0;
+                Ctrl_ext <= 1'b0;
+            end
+            ANDI:begin
+                Ctrl_alu <= 5'b00101;
+                Ctrl_regDst <= 2'b00;
+                Ctrl_aluSrcA <= 2'b00;
+                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_Mem2Reg <= 2'b00;
+                Ctrl_regWr <= 1'b1;
+                Ctrl_MemWr <= 1'b0;
+                Ctrl_ext <= 1'b0;
+            end
+            ORI:begin
+                Ctrl_alu <= 5'b00110;
+                Ctrl_regDst <= 2'b00;
+                Ctrl_aluSrcA <= 2'b00;
+                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_Mem2Reg <= 2'b00;
+                Ctrl_regWr <= 1'b1;
+                Ctrl_MemWr <= 1'b0;
+                Ctrl_ext <= 1'b0;
+            end
+            XORI:begin
+                Ctrl_alu <= 5'b00111;
+                Ctrl_regDst <= 2'b00;
+                Ctrl_aluSrcA <= 2'b00;
+                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_Mem2Reg <= 2'b00;
+                Ctrl_regWr <= 1'b1;
+                Ctrl_MemWr <= 1'b0;
+                Ctrl_ext <= 1'b0;
+            end
+            LUI:begin
+                Ctrl_alu <= 5'b00010;
+                Ctrl_regDst <= 2'b00;
+                Ctrl_aluSrcA <= 2'b01;
+                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_Mem2Reg <= 2'b00;
+                Ctrl_regWr <= 1'b1;
+                Ctrl_MemWr <= 1'b0;
+                Ctrl_ext <= 1'b0;
+            end
+            LW:begin
+                Ctrl_alu <= 5'b00000;
+                Ctrl_regDst <= 2'b00;
+                Ctrl_aluSrcA <= 2'b00;
+                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_Mem2Reg <= 2'b01;
+                Ctrl_regWr <= 1'b1;
+                Ctrl_MemWr <= 1'b0;
+                Ctrl_ext <= 1'b0;
+            end
+            SW:begin
+                Ctrl_alu <= 5'b00000;
+                Ctrl_regDst <= 2'b00;
+                Ctrl_aluSrcA <= 2'b00;
+                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_Mem2Reg <= 2'b00;
+                Ctrl_regWr <= 1'b0;
+                Ctrl_MemWr <= 1'b1;
+                Ctrl_ext <= 1'b0;
+            end
+            BEQ:begin
+                Ctrl_alu <= 5'b00001;
+                Ctrl_regDst <= 2'b00;
+                Ctrl_aluSrcA <= 2'b00;
+                Ctrl_aluSrcB <= 2'b00;
+                Ctrl_Mem2Reg <= 2'b00;
+                Ctrl_regWr <= 1'b0;
+                Ctrl_MemWr <= 1'b0;
+                Ctrl_ext <= 1'b1;
+            end
+            BNE:begin
+                Ctrl_alu <= 5'b00001;
+                Ctrl_regDst <= 2'b00;
+                Ctrl_aluSrcA <= 2'b00;
+                Ctrl_aluSrcB <= 2'b00;
+                Ctrl_Mem2Reg <= 2'b00;
+                Ctrl_regWr <= 1'b0;
+                Ctrl_MemWr <= 1'b0;
+                Ctrl_ext <= 1'b1;
+            end
+            J:begin
+                Ctrl_alu <= 5'b00000;
+                Ctrl_regDst <= 2'b00;
+                Ctrl_aluSrcA <= 2'b00;
+                Ctrl_aluSrcB <= 2'b00;
+                Ctrl_Mem2Reg <= 2'b00;
+                Ctrl_regWr <= 1'b0;
+                Ctrl_MemWr <= 1'b0;
+                Ctrl_ext <= 1'b0;
+            end
         endcase
     end
 

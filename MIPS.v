@@ -100,14 +100,14 @@ module MIPS();
 
     MUX #(32) choose_aluinput1(
         .a(reg_out1),
-        .b(32'h00000100),//lui
+        .b(32'h00000010),//lui
+        .c({ {27{1'b0}} , instr[10:6]}),
         .Ctrl_MUX(Ctrl_aluSrcA),
         .MUX_output(alu_input1)//output
     );
     MUX #(32) choose_aluinput2(
         .a(reg_out2),
-        .b({ {27{1'b0}} , instr[10:6]}),
-        .c(Ext_imm_16),
+        .b(Ext_imm_16),
         .Ctrl_MUX(Ctrl_aluSrcB),
         .MUX_output(alu_input2)//output
     );

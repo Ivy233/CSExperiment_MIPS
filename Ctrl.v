@@ -43,65 +43,65 @@ module Ctrl(
         case (op)
             R:begin
                 Ctrl_regDst <= 2'b01;
-                Ctrl_aluSrcA <= 2'b00;
+                Ctrl_aluSrcB <= 2'b00;
                 Ctrl_Mem2Reg <= 2'b00;
                 Ctrl_ext <= 1'bx;
                 Ctrl_MemWr <= 1'b0;
                 Ctrl_regWr <= 1'b1;
                 case (funct)
                     ADD:begin
-                        Ctrl_aluSrcB <= 2'b00;
+                        Ctrl_aluSrcA <= 2'b00;
                         Ctrl_alu <= 5'b00000;
                     end
                     ADDU:begin
-                        Ctrl_aluSrcB <= 2'b00;
+                        Ctrl_aluSrcA <= 2'b00;
                         Ctrl_alu <= 5'b00000;
                     end
                     SUB:begin
-                        Ctrl_aluSrcB <= 2'b00;
+                        Ctrl_aluSrcA <= 2'b00;
                         Ctrl_alu <= 5'b00001;
                     end
                     SUBU:begin
-                        Ctrl_aluSrcB <= 2'b00;
+                        Ctrl_aluSrcA <= 2'b00;
                         Ctrl_alu <= 5'b00001;
                     end
 
                     SLL:begin
-                        Ctrl_aluSrcB <= 2'b01;
+                        Ctrl_aluSrcA <= 2'b10;
                         Ctrl_alu <= 5'b00010;
                     end
                     SRL:begin
-                        Ctrl_aluSrcB <= 2'b01;
+                        Ctrl_aluSrcA <= 2'b10;
                         Ctrl_alu <= 5'b00011;
                     end
                     SRL:begin
-                        Ctrl_aluSrcB <= 2'b01;
+                        Ctrl_aluSrcA <= 2'b10;
                         Ctrl_alu <= 5'b00011;
                     end
 
                     AND:begin
-                        Ctrl_aluSrcB <= 2'b00;
+                        Ctrl_aluSrcA <= 2'b00;
                         Ctrl_alu <= 5'b00101;
                     end
                     OR:begin
-                        Ctrl_aluSrcB <= 2'b00;
+                        Ctrl_aluSrcA <= 2'b00;
                         Ctrl_alu <= 5'b00110;
                     end
                     XOR:begin
-                        Ctrl_aluSrcB <= 2'b00;
+                        Ctrl_aluSrcA <= 2'b00;
                         Ctrl_alu <= 5'b00111;
                     end
                     NOR:begin
-                        Ctrl_aluSrcB <= 2'b00;
+                        Ctrl_aluSrcA <= 2'b00;
                         Ctrl_alu <= 5'b01010;
                     end
 
                     SLT:begin
-                        Ctrl_aluSrcB <= 2'b00;
+                        Ctrl_aluSrcA <= 2'b00;
                         Ctrl_alu <= 5'b00100;
                     end
                     SLTU:begin
-                        Ctrl_aluSrcB <= 2'b00;
+                        Ctrl_aluSrcA <= 2'b00;
                         Ctrl_alu <= 5'b01000;
                     end
                 endcase
@@ -110,7 +110,7 @@ module Ctrl(
                 Ctrl_alu <= 5'b00000;
                 Ctrl_regDst <= 2'b00;
                 Ctrl_aluSrcA <= 2'b00;
-                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_aluSrcB <= 2'b01;
                 Ctrl_Mem2Reg <= 2'b00;
                 Ctrl_regWr <= 1'b1;
                 Ctrl_MemWr <= 1'b0;
@@ -120,7 +120,7 @@ module Ctrl(
                 Ctrl_alu <= 5'b00100;
                 Ctrl_regDst <= 2'b00;
                 Ctrl_aluSrcA <= 2'b00;
-                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_aluSrcB <= 2'b01;
                 Ctrl_Mem2Reg <= 2'b00;
                 Ctrl_regWr <= 1'b1;
                 Ctrl_MemWr <= 1'b0;
@@ -130,7 +130,7 @@ module Ctrl(
                 Ctrl_alu <= 5'b01000;
                 Ctrl_regDst <= 2'b00;
                 Ctrl_aluSrcA <= 2'b00;
-                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_aluSrcB <= 2'b01;
                 Ctrl_Mem2Reg <= 2'b00;
                 Ctrl_regWr <= 1'b1;
                 Ctrl_MemWr <= 1'b0;
@@ -140,7 +140,7 @@ module Ctrl(
                 Ctrl_alu <= 5'b00101;
                 Ctrl_regDst <= 2'b00;
                 Ctrl_aluSrcA <= 2'b00;
-                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_aluSrcB <= 2'b01;
                 Ctrl_Mem2Reg <= 2'b00;
                 Ctrl_regWr <= 1'b1;
                 Ctrl_MemWr <= 1'b0;
@@ -150,7 +150,7 @@ module Ctrl(
                 Ctrl_alu <= 5'b00110;
                 Ctrl_regDst <= 2'b00;
                 Ctrl_aluSrcA <= 2'b00;
-                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_aluSrcB <= 2'b01;
                 Ctrl_Mem2Reg <= 2'b00;
                 Ctrl_regWr <= 1'b1;
                 Ctrl_MemWr <= 1'b0;
@@ -160,7 +160,7 @@ module Ctrl(
                 Ctrl_alu <= 5'b00111;
                 Ctrl_regDst <= 2'b00;
                 Ctrl_aluSrcA <= 2'b00;
-                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_aluSrcB <= 2'b01;
                 Ctrl_Mem2Reg <= 2'b00;
                 Ctrl_regWr <= 1'b1;
                 Ctrl_MemWr <= 1'b0;
@@ -170,7 +170,7 @@ module Ctrl(
                 Ctrl_alu <= 5'b00010;
                 Ctrl_regDst <= 2'b00;
                 Ctrl_aluSrcA <= 2'b01;
-                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_aluSrcB <= 2'b01;
                 Ctrl_Mem2Reg <= 2'b00;
                 Ctrl_regWr <= 1'b1;
                 Ctrl_MemWr <= 1'b0;
@@ -180,7 +180,7 @@ module Ctrl(
                 Ctrl_alu <= 5'b00000;
                 Ctrl_regDst <= 2'b00;
                 Ctrl_aluSrcA <= 2'b00;
-                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_aluSrcB <= 2'b01;
                 Ctrl_Mem2Reg <= 2'b01;
                 Ctrl_regWr <= 1'b1;
                 Ctrl_MemWr <= 1'b0;
@@ -190,7 +190,7 @@ module Ctrl(
                 Ctrl_alu <= 5'b00000;
                 Ctrl_regDst <= 2'b00;
                 Ctrl_aluSrcA <= 2'b00;
-                Ctrl_aluSrcB <= 2'b10;
+                Ctrl_aluSrcB <= 2'b01;
                 Ctrl_Mem2Reg <= 2'b00;
                 Ctrl_regWr <= 1'b0;
                 Ctrl_MemWr <= 1'b1;

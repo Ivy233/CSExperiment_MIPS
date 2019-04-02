@@ -3,13 +3,10 @@ module Instr_Mem(pc_cur, instr);
     output [31:0] instr;
 
     reg[31:0] Instrs[1023:0];
-    reg[31:0] tmp_instr;
 
+    assign instr = Instrs[pc_cur];
     always@(pc_cur)begin
-        tmp_instr = Instrs[pc_cur];
-        $display("pc_cur=0x%8X, instr=0x%8X", pc_cur, tmp_instr);
+        $display("pc_cur=0x%8X, instr=0x%8X", pc_cur, instr);
     end
-
-    assign instr = tmp_instr;
 
 endmodule // Instr_Mem

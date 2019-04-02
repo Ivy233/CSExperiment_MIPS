@@ -121,7 +121,7 @@ module MIPS();
 
     Mem U_Mem(
         .input_pos(alu_output),
-        .input_data(alu_input2),
+        .input_data(reg_out2),
         .Ctrl_MemWr(Ctrl_MemWr),
         .clk(clk),
         .Mem_output(Mem_output)//output

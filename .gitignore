@@ -3,5 +3,5 @@
 *.txt
 *.wlf
 *.asm
-/work/
-/.vscode/
+*/work/
+*/.vscode/

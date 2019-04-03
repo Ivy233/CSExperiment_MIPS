@@ -12,6 +12,7 @@ module Ctrl(
 
     // Operation code;
 	parameter  	R 				= 6'b000000,
+                ADDI            = 6'b001000,
 				ADDIU			= 6'b001001,
 				SLTI			= 6'b001010,
 				SLTIU			= 6'b001011,
@@ -45,7 +46,7 @@ module Ctrl(
                 Ctrl_regDst <= 2'b01;
                 Ctrl_aluSrcB <= 2'b00;
                 Ctrl_Mem2Reg <= 2'b00;
-                Ctrl_ext <= 1'bx;
+                Ctrl_ext <= 1'b0;//x
                 Ctrl_MemWr <= 1'b0;
                 Ctrl_regWr <= 1'b1;
                 case (funct)
@@ -105,6 +106,16 @@ module Ctrl(
                         Ctrl_alu <= 5'b01000;
                     end
                 endcase
+            end
+            ADDI:begin
+                Ctrl_alu <= 5'b00000;
+                Ctrl_regDst <= 2'b00;
+                Ctrl_aluSrcA <= 2'b00;
+                Ctrl_aluSrcB <= 2'b01;
+                Ctrl_Mem2Reg <= 2'b00;
+                Ctrl_regWr <= 1'b1;
+                Ctrl_MemWr <= 1'b0;
+                Ctrl_ext <= 1'b1;
             end
             ADDIU:begin
                 Ctrl_alu <= 5'b00000;
@@ -201,7 +212,7 @@ module Ctrl(
                 Ctrl_regDst <= 2'b00;
                 Ctrl_aluSrcA <= 2'b00;
                 Ctrl_aluSrcB <= 2'b00;
-                Ctrl_Mem2Reg <= 2'b00;
+                Ctrl_Mem2Reg <= 2'b00;//xx
                 Ctrl_regWr <= 1'b0;
                 Ctrl_MemWr <= 1'b0;
                 Ctrl_ext <= 1'b1;
@@ -211,20 +222,20 @@ module Ctrl(
                 Ctrl_regDst <= 2'b00;
                 Ctrl_aluSrcA <= 2'b00;
                 Ctrl_aluSrcB <= 2'b00;
-                Ctrl_Mem2Reg <= 2'b00;
+                Ctrl_Mem2Reg <= 2'b00;//xx
                 Ctrl_regWr <= 1'b0;
                 Ctrl_MemWr <= 1'b0;
                 Ctrl_ext <= 1'b1;
             end
             J:begin
-                Ctrl_alu <= 5'b00000;
-                Ctrl_regDst <= 2'b00;
-                Ctrl_aluSrcA <= 2'b00;
-                Ctrl_aluSrcB <= 2'b00;
-                Ctrl_Mem2Reg <= 2'b00;
+                Ctrl_alu <= 5'b00000;//xxxxx
+                Ctrl_regDst <= 2'b00;//xx
+                Ctrl_aluSrcA <= 2'b00;//xx
+                Ctrl_aluSrcB <= 2'b00;//xx
+                Ctrl_Mem2Reg <= 2'b00;//xx
                 Ctrl_regWr <= 1'b0;
                 Ctrl_MemWr <= 1'b0;
-                Ctrl_ext <= 1'b0;
+                Ctrl_ext <= 1'b0;//x
             end
         endcase
     end

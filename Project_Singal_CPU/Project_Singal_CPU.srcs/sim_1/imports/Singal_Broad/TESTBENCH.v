@@ -4,8 +4,8 @@
 module TESTBENCH(
     input clk,
     input rst,
-    input[15:0] sw_i;
-    output[15:0] led_o;
+    input[15:0] sw_i,
+    output[15:0] led_o,
     output[7:0] o_seg,
     output[7:0] o_sel
 );
@@ -44,7 +44,7 @@ module TESTBENCH(
         .clk_CPU(clk_CPU)
     );
 
-    wire[31:0] display_data=(U_MIPS.Ctrl_regWr ? U_MIPS.Mem_RegFile_write_data : (U_MIPS.Ctrl_MemWr ? U_MIPS.reg_out2 : U_MIPS.pc_cur))
+    wire[31:0] display_data=(U_MIPS.Ctrl_regWr ? U_MIPS.Mem_RegFile_write_data : (U_MIPS.Ctrl_MemWr ? U_MIPS.reg_out2 : U_MIPS.pc_cur));
     seg7x16 U_seg7x16(
         .clk(clk_display),
         .rst(rst_CPU),

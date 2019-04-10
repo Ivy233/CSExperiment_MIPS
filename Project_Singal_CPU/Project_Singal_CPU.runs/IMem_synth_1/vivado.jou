@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2017.1 (64-bit)
+# SW Build 1846317 on Fri Apr 14 18:55:03 MDT 2017
+# IP Build 1846188 on Fri Apr 14 20:52:08 MDT 2017
+# Start of session at: Wed Apr 10 18:27:51 2019
+# Process ID: 952
+# Current directory: D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.runs/IMem_synth_1
+# Command line: vivado.exe -log IMem.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source IMem.tcl
+# Log file: D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.runs/IMem_synth_1/IMem.vds
+# Journal file: D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.runs/IMem_synth_1\vivado.jou
+#-----------------------------------------------------------
+source IMem.tcl -notrace

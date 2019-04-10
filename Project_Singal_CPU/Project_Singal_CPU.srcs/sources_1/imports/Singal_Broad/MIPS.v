@@ -6,7 +6,12 @@
 `include "MUX.v"
 `include "Next_PC.v"
 `include "PC.v"
-module MIPS();
+module MIPS(
+    input clk,
+    input rst,
+    output[15:0] Ctrl_out,
+    output[31:0] display_data
+);
 /*    //clk & rst
     reg clk, reset;
     initial begin
@@ -36,6 +41,8 @@ module MIPS();
     //other
     wire[4:0] RegFile_write_import;
     wire[31:0] Ext_imm_16, Mem_RegFile_write_data;
+
+    assign Ctrl_out={Ctrl_alu, Ctrl_regDst, Ctrl_aluSrcA, Ctrl_aluSrcB, Ctrl_Mem2Reg, Ctrl_regWr, Ctrl_MemWr, Ctrl_ext};
 
     PC U_PC(
         .clk(clk),
@@ -133,5 +140,6 @@ module MIPS();
         .Ctrl_MUX(Ctrl_Mem2Reg),
         .MUX_output(Mem_RegFile_write_data)
     );
+    assign display_data = (Ctrl_regWr) ? (Mem_RegFile_write_data) : (Ctrl_MemWr ? reg_out2 : pc_cur);
 
 endmodule //

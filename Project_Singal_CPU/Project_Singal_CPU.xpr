@@ -6,7 +6,7 @@
 <Project Version="7" Minor="20" Path="D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
-    <Option Name="Id" Val="c2e1c36f10c3442fbac0145dfb354aa4"/>
+    <Option Name="Id" Val="73c1b5f9d6664297ba88081013873c6a"/>
     <Option Name="Part" Val="xc7a100tcsg324-1"/>
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>
@@ -52,118 +52,118 @@
   <FileSets Version="1" Minor="31">
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
       <Filter Type="Srcs"/>
-      <File Path="$PSRCDIR/sources_1/imports/Singal_Broad/ALU.v">
+      <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/ALU.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Singal_Broad/ALU.v"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/ALU.v"/>
           <Attr Name="ImportTime" Val="1554376346"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/Singal_Broad/Ctrl.v">
+      <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/Ctrl.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Singal_Broad/Ctrl.v"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/Ctrl.v"/>
           <Attr Name="ImportTime" Val="1554286966"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/Singal_Broad/Ext.v">
+      <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/Ext.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Singal_Broad/Ext.v"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/Ext.v"/>
           <Attr Name="ImportTime" Val="1554044038"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/Singal_Broad/Instr_Mem.v">
+      <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/MUX.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Singal_Broad/Instr_Mem.v"/>
-          <Attr Name="ImportTime" Val="1554191014"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/imports/Singal_Broad/MUX.v">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Singal_Broad/MUX.v"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/MUX.v"/>
           <Attr Name="ImportTime" Val="1554042049"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/Singal_Broad/PC.v">
+      <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/Instr_Mem.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Singal_Broad/PC.v"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/Instr_Mem.v"/>
+          <Attr Name="ImportTime" Val="1554191014"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/PC.v">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/PC.v"/>
           <Attr Name="ImportTime" Val="1554190192"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/Singal_Broad/Mem.v">
+      <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/Mem.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Singal_Broad/Mem.v"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/Mem.v"/>
           <Attr Name="ImportTime" Val="1554191076"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/Singal_Broad/Next_PC.v">
+      <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/Next_PC.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Singal_Broad/Next_PC.v"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/Next_PC.v"/>
           <Attr Name="ImportTime" Val="1554093125"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/Singal_Broad/MIPS.v">
+      <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/MIPS.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Singal_Broad/MIPS.v"/>
-          <Attr Name="ImportTime" Val="1554885595"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/MIPS.v"/>
+          <Attr Name="ImportTime" Val="1554959430"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/Singal_Broad/RegFile.v">
+      <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/RegFile.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Singal_Broad/RegFile.v"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/RegFile.v"/>
           <Attr Name="ImportTime" Val="1554190792"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/Singal_Broad/clk_div.v">
+      <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/clk_div.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Singal_Broad/clk_div.v"/>
-          <Attr Name="ImportTime" Val="1554880878"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/clk_div.v"/>
+          <Attr Name="ImportTime" Val="1554958884"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/Singal_Broad/seg7x16.v">
+      <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/seg7x16.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Singal_Broad/seg7x16.v"/>
-          <Attr Name="ImportTime" Val="1554881765"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/seg7x16.v"/>
+          <Attr Name="ImportTime" Val="1554959105"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/Singal_Broad/TESTBENCH.v">
+      <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/TESTBENCH.v">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Singal_Broad/TESTBENCH.v"/>
-          <Attr Name="ImportTime" Val="1554885345"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/TESTBENCH.v"/>
+          <Attr Name="ImportTime" Val="1554959693"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -172,7 +172,7 @@
       <File Path="$PSRCDIR/component.xml">
         <FileInfo SFType="IPXACT"/>
       </File>
-      <File Path="$PPRDIR/../../../ALU_S/Test_6_Instr.coe">
+      <File Path="$PPRDIR/Test_6_Instr.coe">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -186,10 +186,10 @@
     </FileSet>
     <FileSet Name="constrs_1" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
       <Filter Type="Constrs"/>
-      <File Path="$PSRCDIR/constrs_1/imports/Singal_Broad/icf.xdc">
+      <File Path="$PSRCDIR/constrs_1/imports/Project_Singal_CPU/icf.xdc">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Singal_Broad/icf.xdc"/>
-          <Attr Name="ImportTime" Val="1554885966"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/icf.xdc"/>
+          <Attr Name="ImportTime" Val="1554960596"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
         </FileInfo>
@@ -199,11 +199,11 @@
       </Config>
     </FileSet>
     <FileSet Name="sim_1" Type="SimulationSrcs" RelSrcDir="$PSRCDIR/sim_1">
-      <File Path="$PSRCDIR/sim_1/imports/Singal_Broad/TESTBENCH.v">
+      <File Path="$PSRCDIR/sim_1/imports/Project_Singal_CPU/TESTBENCH.v">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Singal_Broad/TESTBENCH.v"/>
-          <Attr Name="ImportTime" Val="1554885345"/>
+          <Attr Name="ImportPath" Val="$PPRDIR/TESTBENCH.v"/>
+          <Attr Name="ImportTime" Val="1554959693"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -219,17 +219,16 @@
         <Option Name="SrcSet" Val="sources_1"/>
       </Config>
     </FileSet>
-    <FileSet Name="IMem" Type="BlockSrcs" RelSrcDir="$PSRCDIR/IMem">
-      <File Path="$PSRCDIR/sources_1/ip/IMem/IMem.xci">
+    <FileSet Name="Instr_Mem" Type="BlockSrcs" RelSrcDir="$PSRCDIR/Instr_Mem">
+      <File Path="$PSRCDIR/sources_1/ip/Instr_Mem/Instr_Mem.xci">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
       <Config>
-        <Option Name="TopModule" Val="IMem"/>
+        <Option Name="TopModule" Val="Instr_Mem"/>
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
@@ -264,7 +263,7 @@
       <ReportStrategy/>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>
-    <Run Id="IMem_synth_1" Type="Ft3:Synth" SrcSet="IMem" Part="xc7a100tcsg324-1" ConstrsSet="IMem" Description="Vivado Synthesis Defaults" Dir="$PRUNDIR/IMem_synth_1" IncludeInArchive="true">
+    <Run Id="Instr_Mem_synth_1" Type="Ft3:Synth" SrcSet="Instr_Mem" Part="xc7a100tcsg324-1" ConstrsSet="Instr_Mem" Description="Vivado Synthesis Defaults" Dir="$PRUNDIR/Instr_Mem_synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2017">
           <Desc>Vivado Synthesis Defaults</Desc>
@@ -294,7 +293,7 @@
       <ReportStrategy/>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>
-    <Run Id="IMem_impl_1" Type="Ft2:EntireDesign" Part="xc7a100tcsg324-1" ConstrsSet="IMem" Description="Default settings for Implementation." SynthRun="IMem_synth_1" IncludeInArchive="false">
+    <Run Id="Instr_Mem_impl_1" Type="Ft2:EntireDesign" Part="xc7a100tcsg324-1" ConstrsSet="Instr_Mem" Description="Default settings for Implementation." SynthRun="Instr_Mem_synth_1" IncludeInArchive="false">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2017">
           <Desc>Default settings for Implementation.</Desc>

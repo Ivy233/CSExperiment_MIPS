@@ -48,7 +48,6 @@ start_step init_design
 set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
-  set_param xicom.use_bs_reader 1
   create_project -in_memory -part xc7a100tcsg324-1
   set_property design_mode GateLvl [current_fileset]
   set_param project.singleFileAddWarning.threshold 0
@@ -58,7 +57,9 @@ set rc [catch {
   set_property ip_output_repo D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
   add_files -quiet D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.runs/synth_1/TESTBENCH.dcp
-  read_xdc D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.srcs/constrs_1/imports/Singal_Broad/icf.xdc
+  read_ip -quiet d:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.srcs/sources_1/ip/Instr_Mem/Instr_Mem.xci
+  set_property is_locked true [get_files d:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.srcs/sources_1/ip/Instr_Mem/Instr_Mem.xci]
+  read_xdc D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.srcs/constrs_1/imports/Project_Singal_CPU/icf.xdc
   link_design -top TESTBENCH -part xc7a100tcsg324-1
   close_msg_db -file init_design.pb
 } RESULT]

@@ -1,7 +1,7 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2017.1 (win64) Build 1846317 Fri Apr 14 18:55:03 MDT 2017
-| Date             : Wed Apr 10 19:09:56 2019
+| Date             : Thu Apr 11 14:25:56 2019
 | Host             : DESKTOP-G0OA7IA running 64-bit major release  (build 9200)
 | Command          : report_power -file TESTBENCH_power_routed.rpt -pb TESTBENCH_power_summary_routed.pb -rpx TESTBENCH_power_routed.rpx
 | Design           : TESTBENCH
@@ -50,12 +50,13 @@ Table of Contents
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
 | Clocks         |    <0.001 |        3 |       --- |             --- |
-| Slice Logic    |    <0.001 |       45 |       --- |             --- |
+| Slice Logic    |    <0.001 |       46 |       --- |             --- |
 |   LUT as Logic |    <0.001 |        8 |     63400 |            0.01 |
 |   Register     |    <0.001 |       24 |    126800 |            0.02 |
 |   CARRY4       |    <0.001 |        4 |     15850 |            0.03 |
 |   Others       |     0.000 |        4 |       --- |             --- |
-| Signals        |    <0.001 |       39 |       --- |             --- |
+|   BUFG         |     0.000 |        1 |        32 |            3.13 |
+| Signals        |    <0.001 |       38 |       --- |             --- |
 | I/O            |     0.001 |       34 |       210 |           16.19 |
 | Static Power   |     0.097 |          |           |                 |
 | Total          |     0.098 |          |           |                 |

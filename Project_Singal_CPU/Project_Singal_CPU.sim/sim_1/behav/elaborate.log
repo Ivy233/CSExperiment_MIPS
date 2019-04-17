@@ -1,0 +1,29 @@
+Vivado Simulator 2017.1
+Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2017.1/bin/unwrapped/win64.o/xelab.exe -wto 73c1b5f9d6664297ba88081013873c6a --debug typical --relax --mt 2 -L dist_mem_gen_v8_0_11 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot TESTBENCH_behav xil_defaultlib.TESTBENCH xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+WARNING: [VRFC 10-278] actual bit length 5 differs from formal bit length 4 for port Ctrl_alu [D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.srcs/sources_1/imports/Project_Singal_CPU/MIPS.v:125]
+WARNING: [VRFC 10-278] actual bit length 32 differs from formal bit length 12 for port input_pos [D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.srcs/sources_1/imports/Project_Singal_CPU/MIPS.v:130]
+Completed static elaboration
+Starting simulation data flow analysis
+WARNING: [XSIM 43-4100] "D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.sim/sim_1/behav/glbl.v" Line 6. Module glbl has a timescale but at least one module in design doesn't have timescale.
+WARNING: [XSIM 43-4100] "D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.sim/sim_1/behav/glbl.v" Line 6. Module glbl has a timescale but at least one module in design doesn't have timescale.
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.PC
+Compiling module xil_defaultlib.Next_PC
+Compiling module xil_defaultlib.Instr_Mem
+Compiling module xil_defaultlib.Ctrl
+Compiling module xil_defaultlib.Ext
+Compiling module xil_defaultlib.MUX(WIDTH=5)
+Compiling module xil_defaultlib.RegFile
+Compiling module xil_defaultlib.MUX
+Compiling module xil_defaultlib.ALU
+Compiling module xil_defaultlib.Mem
+Compiling module xil_defaultlib.MIPS
+Compiling module xil_defaultlib.clk_div
+Compiling module xil_defaultlib.seg7x16
+Compiling module xil_defaultlib.TESTBENCH
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot TESTBENCH_behav

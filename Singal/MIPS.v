@@ -8,20 +8,18 @@
 `include "PC.v"
 module MIPS();
     //clk & rst
-    reg clk, reset;
+    reg clk, rst;
     initial begin
         $readmemh("Bubble_sort.txt", U_Instr_Mem.Instrs);
         clk = 1;
-        reset = 1;
-        #20 reset = 0;
+        rst = 1;
+        #20 rst = 0;
     end
     always #50 clk = ~clk;
 
 
-    //PC & ins
-    wire[31:0] pc_next;
-    wire[31:0] pc_cur;
-    wire[31:0] instr;
+//PC & ins
+    wire[31:0] pc_next, pc_cur, instr;
 
     //ctrl
     wire[4:0] Ctrl_alu;//alu
@@ -35,11 +33,24 @@ module MIPS();
 
     //other
     wire[4:0] RegFile_write_import;
-    wire[31:0] Ext_imm_16, Mem_RegFile_write_data;
+    wire[31:0] Ext_imm_16, Mem_RegFile_write_data, tmp_output;
+
+    reg[2:0]tmp_import;
+    initial begin
+        tmp_import = 3'b000;
+    end
+    always @(posedge clk) begin
+        if(instr == 32'h00000000) begin
+            tmp_import = tmp_import + 1;
+            if(tmp_import >= 3'b101) begin
+                tmp_import = 3'b000;
+            end
+        end
+    end
 
     PC U_PC(
         .clk(clk),
-        .rst(reset),
+        .rst(rst),
         .pc_next(pc_next),
         .pc_cur(pc_cur)//output
     );
@@ -54,8 +65,8 @@ module MIPS();
     );
 
     Instr_Mem U_Instr_Mem(
-        .pc_cur(pc_cur[7:2]),
-        .instr(instr)//output
+        .a(pc_cur[11:2]),
+        .spo(instr)//output
     );
 
     Ctrl U_Ctrl(
@@ -124,7 +135,9 @@ module MIPS();
         .input_data(reg_out2),
         .Ctrl_MemWr(Ctrl_MemWr),
         .clk(clk),
-        .Mem_output(Mem_output)//output
+        .Mem_output(Mem_output),//output
+        .tmp_import(tmp_import),
+        .tmp_output(tmp_output)
     );
 
     MUX choose_writeBack(
@@ -133,5 +146,7 @@ module MIPS();
         .Ctrl_MUX(Ctrl_Mem2Reg),
         .MUX_output(Mem_RegFile_write_data)
     );
+
+    assign display_data = instr ? ((pc_cur - 32'h00003000) >> 2) : tmp_output;
 
 endmodule //

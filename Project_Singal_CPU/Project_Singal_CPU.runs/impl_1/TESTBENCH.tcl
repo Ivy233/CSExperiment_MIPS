@@ -42,7 +42,6 @@ proc step_failed { step } {
   close $ch
 }
 
-set_msg_config -id {HDL-1065} -limit 10000
 
 start_step init_design
 set ACTIVE_STEP init_design
@@ -53,12 +52,12 @@ set rc [catch {
   set_param project.singleFileAddWarning.threshold 0
   set_property webtalk.parent_dir D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.cache/wt [current_project]
   set_property parent.project_path D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.xpr [current_project]
-  set_property ip_repo_paths d:/tmp/csexperiment_mips/project_singal_cpu/project_singal_cpu.srcs [current_project]
+  set_property ip_repo_paths D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.srcs [current_project]
   set_property ip_output_repo D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
   add_files -quiet D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.runs/synth_1/TESTBENCH.dcp
-  read_ip -quiet d:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.srcs/sources_1/ip/Instr_Mem/Instr_Mem.xci
-  set_property is_locked true [get_files d:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.srcs/sources_1/ip/Instr_Mem/Instr_Mem.xci]
+  read_ip -quiet D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.srcs/sources_1/ip/Instr_Mem/Instr_Mem.xci
+  set_property is_locked true [get_files D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.srcs/sources_1/ip/Instr_Mem/Instr_Mem.xci]
   read_xdc D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.srcs/constrs_1/imports/Project_Singal_CPU/icf.xdc
   link_design -top TESTBENCH -part xc7a100tcsg324-1
   close_msg_db -file init_design.pb

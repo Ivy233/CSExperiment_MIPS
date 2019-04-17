@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<Runs Version="1" Minor="0">
+	<Run Id="Instr_Mem_synth_1" LaunchDir="D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.runs/Instr_Mem_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="synth_1" LaunchDir="D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.runs/synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado">
+		<Parent Id="Instr_Mem_synth_1"/>
+	</Run>
+	<Run Id="impl_1" LaunchDir="D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.runs/impl_1" FlowId="Vivado_Implementation" FromStepId="init_design" ToStepId="write_bitstream">
+		<Parent Id="synth_1"/>
+		<Parent Id="Instr_Mem_synth_1"/>
+	</Run>
+</Runs>
+

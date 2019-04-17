@@ -1,9 +1,13 @@
-module RegFile(clk, Read_import1, Read_import2, Write_import, Write_data, Ctrl_regWr, Rout1, Rout2);
-    input[4:0] Read_import1, Read_import2, Write_import;
-    input[31:0] Write_data;
-    input Ctrl_regWr, clk;
-    output[31:0] Rout1, Rout2;
-
+module RegFile(
+    input clk,
+    input[4:0] Read_import1,
+    input[4:0] Read_import2,
+    input[4:0] Write_import,
+    input[31:0] Write_data,
+    input Ctrl_regWr,
+    output[31:0] Rout1,
+    output[31:0] Rout2
+);
     reg[31:0] register[0:31];
 
     initial begin

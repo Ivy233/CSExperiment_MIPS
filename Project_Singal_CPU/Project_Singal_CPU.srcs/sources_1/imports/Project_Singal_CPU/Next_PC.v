@@ -1,10 +1,12 @@
-module Next_PC(pc_cur, op, funct, branch_delta, jumpToWhere, aluout, pc_next);
-    input[31:0] aluout,pc_cur;
-    input[15:0] branch_delta;
-    input[25:0] jumpToWhere;
-    input[5:0] op, funct;
-    output reg[31:0] pc_next;
-
+module Next_PC(
+    input[31:0] pc_cur,
+    input[5:0] op,
+    input[5:0] funct,
+    input[15:0] branch_delta,
+    input[26:0] jumpToWhere,
+    input[31:0] aluout,
+    output reg[31:0] pc_next
+);
     parameter 	BEQ				= 6'b000100,
 				BNE				= 6'b000101,
 				J				= 6'b000010;

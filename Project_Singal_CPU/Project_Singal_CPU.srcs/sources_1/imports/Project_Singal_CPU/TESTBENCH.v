@@ -20,11 +20,11 @@ module TESTBENCH(
     end
 
     always @(posedge rst_CPU) begin
-        clk_cnt=0;
+        clk_cnt = 0;
     end
     always @(posedge clk_CPU) begin
         clk_cnt = clk_cnt + 1;
-        if(clk_cnt >= 2048)begin
+        if(clk_cnt >= 3072)begin
             $finish;
         end
     end
@@ -37,9 +37,9 @@ module TESTBENCH(
     );
 
     clk_div U_clk_div(
-        .clk(clk_display),
+        .clk_dis(clk_display),
         .rst(rst_CPU),
-        .sw_15(sw_i[15]),
+        .sw(sw_i),
         .clk_CPU(clk_CPU)
     );
 

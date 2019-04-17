@@ -1,15 +1,15 @@
 module Ctrl(
-    op, funct,
-    Ctrl_alu,
-    Ctrl_regDst, Ctrl_aluSrcA, Ctrl_aluSrcB, Ctrl_Mem2Reg, Ctrl_ext,
-    Ctrl_regWr, Ctrl_MemWr
+    input[5:0] op,
+    input[5:0] funct,
+    output reg[4:0] Ctrl_alu,
+    output reg[1:0] Ctrl_regDst,
+    output reg[1:0] Ctrl_aluSrcA,
+    output reg[1:0] Ctrl_aluSrcB,
+    output reg[1:0] Ctrl_Mem2Reg,
+    output reg Ctrl_ext,
+    output reg Ctrl_regWr,
+    output reg Ctrl_MemWr
 );
-    input[5:0] op;
-    input[5:0] funct;
-    output reg[4:0] Ctrl_alu;
-    output reg[1:0] Ctrl_regDst, Ctrl_aluSrcA, Ctrl_aluSrcB, Ctrl_Mem2Reg;
-    output reg Ctrl_regWr, Ctrl_MemWr, Ctrl_ext;
-
     // Operation code;
 	parameter  	R 				= 6'b000000,
                 ADDI            = 6'b001000,

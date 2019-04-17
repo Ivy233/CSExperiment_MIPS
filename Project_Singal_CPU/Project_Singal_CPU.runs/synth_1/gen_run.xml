@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a100tcsg324-1" LaunchTime="1554963853">
+<GenRun Id="synth_1" LaunchPart="xc7a100tcsg324-1" LaunchTime="1555507698">
   <File Type="RDS-PROPCONSTRS" Name="TESTBENCH_drc_synth.rpt"/>
   <File Type="PA-TCL" Name="TESTBENCH.tcl"/>
   <File Type="RDS-RDS" Name="TESTBENCH.vds"/>
@@ -37,28 +37,19 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
+    <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/MIPS.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/MIPS.v"/>
+        <Attr Name="ImportTime" Val="1554959430"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/MUX.v">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/MUX.v"/>
         <Attr Name="ImportTime" Val="1554042049"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/Instr_Mem.v">
-      <FileInfo>
-        <Attr Name="ImportPath" Val="$PPRDIR/Instr_Mem.v"/>
-        <Attr Name="ImportTime" Val="1554191014"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/PC.v">
-      <FileInfo>
-        <Attr Name="ImportPath" Val="$PPRDIR/PC.v"/>
-        <Attr Name="ImportTime" Val="1554190192"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -82,10 +73,10 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/MIPS.v">
+    <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/PC.v">
       <FileInfo>
-        <Attr Name="ImportPath" Val="$PPRDIR/MIPS.v"/>
-        <Attr Name="ImportTime" Val="1554959430"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/PC.v"/>
+        <Attr Name="ImportTime" Val="1554190192"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -127,6 +118,16 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
+    <File Path="$PSRCDIR/sources_1/imports/Project_Singal_CPU/Instr_Mem.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="ImportPath" Val="$PPRDIR/Instr_Mem.v"/>
+        <Attr Name="ImportTime" Val="1554191014"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PSRCDIR/component.xml">
       <FileInfo SFType="IPXACT"/>
     </File>
@@ -157,9 +158,7 @@
     </Config>
   </FileSet>
   <Strategy Version="1" Minor="2">
-    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2017">
-      <Desc>Vivado Synthesis Defaults</Desc>
-    </StratHandle>
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2017"/>
     <Step Id="synth_design"/>
   </Strategy>
   <BlockFileSet Type="BlockSrcs" Name="Instr_Mem"/>

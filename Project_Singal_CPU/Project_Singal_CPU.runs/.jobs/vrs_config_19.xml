@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<Runs Version="1" Minor="0">
+	<Run Id="Instr_Mem_synth_1" LaunchDir="D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.runs/Instr_Mem_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+</Runs>
+

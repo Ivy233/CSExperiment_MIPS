@@ -1,32 +1,11 @@
-`include "ALU.v"
-`include "Ctrl.v"
-`include "Ext.v"
-`include "Instr_Mem.v"
-`include "Mem.v"
-`include "MUX.v"
-`include "Next_PC.v"
-`include "PC.v"
 module MIPS(
     input clk,
     input rst,
     output[15:0] Ctrl_out,
     output[31:0] display_data
 );
-/*    //clk & rst
-    reg clk, rst;
-    initial begin
-        $readmemh("Bubble_sort.txt", U_Instr_Mem.Instrs);
-        clk = 1;
-        rst = 1;
-        #20 rst = 0;
-    end
-    always #50 clk = ~clk;*/
-
-
     //PC & ins
-    wire[31:0] pc_next;
-    wire[31:0] pc_cur;
-    wire[31:0] instr;
+    wire[31:0] pc_next, pc_cur, instr;
 
     //ctrl
     wire[4:0] Ctrl_alu;//alu
@@ -40,9 +19,20 @@ module MIPS(
 
     //other
     wire[4:0] RegFile_write_import;
-    wire[31:0] Ext_imm_16, Mem_RegFile_write_data;
+    wire[31:0] Ext_imm_16, Mem_RegFile_write_data, tmp_output;
 
-    assign display_data = (Ctrl_regWr ? Mem_RegFile_write_data : (Ctrl_MemWr ? reg_out2 : pc_cur));
+    reg[3:0]tmp_import;
+    initial begin
+        tmp_import=3'b000;
+    end
+    always @(posedge clk) begin
+        if(instr == 32'h00000000) begin
+            tmp_import = tmp_import + 1;
+            if(tmp_import >= 3'b101) begin
+                tmp_import = 0;
+            end
+        end
+    end
 
     PC U_PC(
         .clk(clk),
@@ -61,8 +51,8 @@ module MIPS(
     );
 
     Instr_Mem U_Instr_Mem(
-        .pc_cur(pc_cur[7:2]),
-        .instr(instr)//output
+        .a(pc_cur[11:2]),
+        .spo(instr)//output
     );
 
     Ctrl U_Ctrl(
@@ -131,7 +121,9 @@ module MIPS(
         .input_data(reg_out2),
         .Ctrl_MemWr(Ctrl_MemWr),
         .clk(clk),
-        .Mem_output(Mem_output)//output
+        .Mem_output(Mem_output),//output
+        .tmp_import(tmp_import),
+        .tmp_output(tmp_output)
     );
 
     MUX choose_writeBack(
@@ -140,5 +132,7 @@ module MIPS(
         .Ctrl_MUX(Ctrl_Mem2Reg),
         .MUX_output(Mem_RegFile_write_data)
     );
+
+    assign display_data = instr ? ((pc_cur - 32'h00003000) >> 2) : tmp_output;
 
 endmodule //

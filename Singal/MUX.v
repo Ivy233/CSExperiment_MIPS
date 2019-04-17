@@ -1,8 +1,5 @@
 module MUX #(parameter WIDTH=32)(a, b, c, d, Ctrl_MUX, MUX_output);
-    input[WIDTH-1:0] a;
-    input[WIDTH-1:0] b;
-    input[WIDTH-1:0] c;
-    input[WIDTH-1:0] d;
+    input[WIDTH-1:0] a, b, c, d;
     input[1:0] Ctrl_MUX;
     output reg[WIDTH-1:0] MUX_output;
 

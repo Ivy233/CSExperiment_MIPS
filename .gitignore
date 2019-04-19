@@ -1,7 +1,5 @@
 *.mpf
 *.mti
-*.txt
 *.wlf
-*.asm
 */work/
 */.vscode/

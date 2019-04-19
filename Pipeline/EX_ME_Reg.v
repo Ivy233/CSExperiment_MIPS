@@ -18,7 +18,7 @@ module EX_ME_Reg(
     output Ctrl_regWr_out,
     output Ctrl_MemWr_out,
     output[1:0] Ctrl_branch_out,
-    output Ctrl_alures_out,
+    output Ctrl_alures_out
 );
     reg[106:0] TMP_reg;
 

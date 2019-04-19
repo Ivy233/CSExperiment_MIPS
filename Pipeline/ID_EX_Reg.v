@@ -28,7 +28,7 @@ module ID_EX_Reg(
     output Ctrl_Mem2Reg_out,
     output Ctrl_regWr_out,
     output Ctrl_MemWr_out,
-    output[1:0] Ctrl_branch_out,
+    output[1:0] Ctrl_branch_out
 );
     reg[124:0] TMP_reg;
 

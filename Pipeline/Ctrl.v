@@ -253,7 +253,7 @@ module Ctrl(
                 Ctrl_regWr <= 1'b0;
                 Ctrl_MemWr <= 1'b0;
                 Ctrl_ext <= 1'b1;
-                Ctrl_branch <= 1'b10;
+                Ctrl_branch <= 2'b10;
                 Ctrl_jump <= 1'b0;
             end
             J:begin

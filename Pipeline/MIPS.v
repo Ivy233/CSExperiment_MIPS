@@ -1,14 +1,4 @@
 module MIPS();
-    //clk & rst
-    reg clk, reset;
-    initial begin
-        $readmemh("Bubble_sort.txt", U_Instr_Mem.Instrs);
-        clk = 1;
-        reset = 1;
-        #20 reset = 0;
-    end
-    always #50 clk = ~clk;
-
     //IF
     wire[31:0] IF_instr, IF_pc_cur, IF_pc_next;
     //ID
@@ -42,8 +32,30 @@ module MIPS();
         //WB:Ctrl
         wire WB_Ctrl_Mem2Reg, WB_Ctrl_regWr;
 
+    //clk & rst
+    reg clk, reset;
+    initial begin
+        $readmemh("others/Bubble_sort.txt", U_Instr_Mem.Instrs);
+        clk = 1;
+        reset = 1;
+        #20 reset = 0;
+    end
+    always #50 clk = ~clk;
+
     //Units
     //ID
+    PC U_PC(
+        .clk(clk),//1
+        .rst(reset),//1
+        .pc_next(IF_pc_next),//32
+        .pc_cur(IF_pc_cur)//32
+    );
+    Instr_Mem U_Instr_Mem(
+        .pc_cur(IF_pc_cur[11:2]),//10
+        //out
+        .instr(IF_instr)//32
+    );
+    assign IF_pc_cur = IF_pc_cur + 3'b100;
     Next_PC U_Next_PC(
         //nothing:+4
         .pc_cur(IF_pc_cur),//32: have been increased by 4
@@ -57,27 +69,16 @@ module MIPS();
         //out
         .pc_next(IF_pc_next)//32
     );
-    PC U_PC(
-        .clk(clk),//1
-        .rst(reset),//1
-        .pc_next(IF_pc_next),//32
-        .pc_cur(IF_pc_cur)//32
-    );
-    Instr_Mem U_Instr_Mem(
-        .pc_cur(IF_pc_cur[11:2]),//10
-        //out
-        .instr(IF_instr)//32
-    );
-    assign IF_pc_cur=IF_pc_cur + 3'b100;
+
     //IF_ID
-    ID_IF_Reg U_ID_IF_Reg(
+    IF_ID_Reg U_IF_ID_Reg(
         .clk(clk),//1
         .rst(reset),//1
         .reg_in1(IF_pc_cur),//32
         .reg_in2(IF_instr),//32
         //out
         .reg_out1(ID_pc_cur),//32
-        .reg_out2(ID_instr),//32
+        .reg_out2(ID_instr)//32
     );
     //ID
     Ctrl U_Ctrl(
@@ -144,7 +145,7 @@ module MIPS();
         .Ctrl_Mem2Reg_out(EX_Ctrl_Mem2Reg),//1
         .Ctrl_regWr_out(EX_Ctrl_regWr),//1
         .Ctrl_MemWr_out(EX_Ctrl_MemWr),//1
-        .Ctrl_branch_out(EX_Ctrl_branch),//1
+        .Ctrl_branch_out(EX_Ctrl_branch)//1
     );
     //EX
     MUX #(5) Choose_Rt_Rd(
@@ -185,7 +186,7 @@ module MIPS();
         .reg_in1(EX_alu_out),//32
         .reg_in2(EX_reg_write_import),//5
         .reg_in3(EX_reg_out2),//32
-        .reg_in4(EX_pc_cur + {EX_Ext_imm_16[29:0], 2'b00});//32
+        .reg_in4(EX_pc_cur + {EX_Ext_imm_16[29:0], 2'b00}),//32
         .Ctrl_Mem2Reg_in(EX_Ctrl_Mem2Reg),//1
         .Ctrl_regWr_in(EX_Ctrl_regWr),//1
         .Ctrl_MemWr_in(EX_Ctrl_MemWr),//1
@@ -225,7 +226,7 @@ module MIPS();
         .reg_out2(WB_reg_write_data2),//5
         .reg_out3(WB_reg_write_import),//32
         .Ctrl_Mem2Reg_out(WB_Ctrl_Mem2Reg),//1
-        .Ctrl_regWr_out(WB_Ctrl_regWr),//1
+        .Ctrl_regWr_out(WB_Ctrl_regWr)//1
     );
     //WB
     MUX #(32) choose_writeBack(

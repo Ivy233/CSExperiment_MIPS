@@ -1,4 +1,4 @@
-module EX_ME_Reg(
+module ME_WB_Reg(
     input clk,
     input rst,
     input[31:0] reg_in1,
@@ -10,7 +10,7 @@ module EX_ME_Reg(
     output[31:0] reg_out2,
     output[4:0] reg_out3,
     output Ctrl_Mem2Reg_out,
-    output Ctrl_regWr_out,
+    output Ctrl_regWr_out
 );
     reg[70:0] TMP_reg;
 
@@ -33,4 +33,4 @@ module EX_ME_Reg(
             Ctrl_Mem2Reg_in, Ctrl_regWr_in
         };
     end
-endmodule // EX_ME_Reg
+endmodule // ME_WB_Reg

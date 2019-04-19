@@ -10,7 +10,7 @@ module MIPS();
     //clk & rst
     reg clk, rst;
     initial begin
-        $readmemh("Bubble_sort.txt", U_Instr_Mem.Instrs);
+        $readmemh("others/Bubble_sort.txt", U_Instr_Mem.Instrs);
         clk = 1;
         rst = 1;
         #20 rst = 0;

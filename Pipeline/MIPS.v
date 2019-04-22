@@ -44,21 +44,10 @@ module MIPS();
 
     //Units
     //ID
-    PC U_PC(
+    Next_PC U_Next_PC(
         .clk(clk),//1
         .rst(reset),//1
-        .pc_next(IF_pc_next),//32
-        .pc_cur(IF_pc_cur)//32
-    );
-    Instr_Mem U_Instr_Mem(
-        .pc_cur(IF_pc_cur[11:2]),//10
-        //out
-        .instr(IF_instr)//32
-    );
-    assign IF_pc_cur = IF_pc_cur + 3'b100;
-    Next_PC U_Next_PC(
         //nothing:+4
-        .pc_cur(IF_pc_cur),//32: have been increased by 4
         //jump:j
         .Ctrl_jump(ID_Ctrl_jump),//1
         .jumpToWhere({ID_pc_cur[31:28], ID_instr[25:0], 2'b00}),//32
@@ -67,14 +56,20 @@ module MIPS();
         .Ctrl_alures(ME_Ctrl_alures),//1
         .branchToWhere(ME_branchToWhere),//32
         //out
-        .pc_next(IF_pc_next)//32
+        .pc_cur(IF_pc_cur)//32: have been increased by 4
     );
+    Instr_Mem U_Instr_Mem(
+        .pc_cur(IF_pc_cur[11:2]),//10
+        //out
+        .instr(IF_instr)//32
+    );
+
 
     //IF_ID
     IF_ID_Reg U_IF_ID_Reg(
         .clk(clk),//1
         .rst(reset),//1
-        .reg_in1(IF_pc_cur),//32
+        .reg_in1(IF_pc_cur + 3'b100),//32
         .reg_in2(IF_instr),//32
         //out
         .reg_out1(ID_pc_cur),//32

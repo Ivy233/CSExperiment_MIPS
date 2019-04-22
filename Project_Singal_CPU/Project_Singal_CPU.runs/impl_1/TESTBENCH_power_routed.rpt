@@ -1,7 +1,7 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2017.1 (win64) Build 1846317 Fri Apr 14 18:55:03 MDT 2017
-| Date             : Wed Apr 17 21:30:16 2019
+| Date             : Sat Apr 20 18:37:33 2019
 | Host             : DESKTOP-G0OA7IA running 64-bit major release  (build 9200)
 | Command          : report_power -file TESTBENCH_power_routed.rpt -pb TESTBENCH_power_summary_routed.pb -rpx TESTBENCH_power_routed.rpx
 | Design           : TESTBENCH
@@ -30,7 +30,7 @@ Table of Contents
 ----------
 
 +--------------------------+-------+
-| Total On-Chip Power (W)  | 0.100 |
+| Total On-Chip Power (W)  | 0.101 |
 | Dynamic (W)              | 0.003 |
 | Device Static (W)        | 0.097 |
 | Effective TJA (C/W)      | 4.6   |
@@ -50,7 +50,7 @@ Table of Contents
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
 | Clocks                   |    <0.001 |        3 |       --- |             --- |
-| Slice Logic              |    <0.001 |     3042 |       --- |             --- |
+| Slice Logic              |    <0.001 |     3041 |       --- |             --- |
 |   LUT as Logic           |    <0.001 |      973 |     63400 |            1.53 |
 |   CARRY4                 |    <0.001 |       50 |     15850 |            0.32 |
 |   Register               |    <0.001 |      235 |    126800 |            0.19 |
@@ -58,10 +58,10 @@ Table of Contents
 |   F7/F8 Muxes            |    <0.001 |      548 |     63400 |            0.86 |
 |   LUT as Distributed RAM |    <0.001 |     1072 |     19000 |            5.64 |
 |   Others                 |     0.000 |       17 |       --- |             --- |
-| Signals                  |    <0.001 |     1544 |       --- |             --- |
-| I/O                      |     0.002 |       40 |       210 |           19.05 |
+| Signals                  |    <0.001 |     1535 |       --- |             --- |
+| I/O                      |     0.003 |       40 |       210 |           19.05 |
 | Static Power             |     0.097 |          |           |                 |
-| Total                    |     0.100 |          |           |                 |
+| Total                    |     0.101 |          |           |                 |
 +--------------------------+-----------+----------+-----------+-----------------+
 
 

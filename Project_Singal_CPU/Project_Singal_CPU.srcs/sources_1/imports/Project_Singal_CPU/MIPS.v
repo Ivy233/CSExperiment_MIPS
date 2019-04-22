@@ -20,7 +20,7 @@ module MIPS(
     //other
     wire[4:0] RegFile_write_import;
     wire[31:0] Ext_imm_16, Mem_RegFile_write_data, tmp_output;
-
+    assign Ctrl_out = {Ctrl_alu, Ctrl_regDst, Ctrl_aluSrcA, Ctrl_aluSrcB, Ctrl_Mem2Reg, Ctrl_regWr, Ctrl_MemWr, Ctrl_ext};
     reg[3:0]tmp_import;
     initial begin
         tmp_import=3'b000;

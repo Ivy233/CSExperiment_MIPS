@@ -2,8 +2,8 @@
 # Vivado v2017.1 (64-bit)
 # SW Build 1846317 on Fri Apr 14 18:55:03 MDT 2017
 # IP Build 1846188 on Fri Apr 14 20:52:08 MDT 2017
-# Start of session at: Wed Apr 17 21:28:20 2019
-# Process ID: 2672
+# Start of session at: Sat Apr 20 18:35:35 2019
+# Process ID: 8180
 # Current directory: D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.runs/synth_1
 # Command line: vivado.exe -log TESTBENCH.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source TESTBENCH.tcl
 # Log file: D:/tmp/CSExperiment_MIPS/Project_Singal_CPU/Project_Singal_CPU.runs/synth_1/TESTBENCH.vds

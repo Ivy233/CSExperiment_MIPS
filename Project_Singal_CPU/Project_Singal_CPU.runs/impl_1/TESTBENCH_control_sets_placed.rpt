@@ -1,7 +1,7 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 --------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2017.1 (win64) Build 1846317 Fri Apr 14 18:55:03 MDT 2017
-| Date         : Wed Apr 17 21:29:43 2019
+| Date         : Sat Apr 20 18:37:00 2019
 | Host         : DESKTOP-G0OA7IA running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file TESTBENCH_control_sets_placed.rpt
 | Design       : TESTBENCH
@@ -33,12 +33,12 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              90 |           54 |
-| No           | No                    | Yes                    |             118 |           49 |
+| No           | No                    | No                     |              90 |           60 |
+| No           | No                    | Yes                    |             118 |           47 |
 | No           | Yes                   | No                     |               0 |            0 |
 | Yes          | No                    | No                     |               0 |            0 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |              27 |           17 |
+| Yes          | Yes                   | No                     |              27 |           12 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
@@ -49,12 +49,12 @@ Table of Contents
 |                Clock Signal               |            Enable Signal            |       Set/Reset Signal       | Slice Load Count | Bel Load Count |
 +-------------------------------------------+-------------------------------------+------------------------------+------------------+----------------+
 |  U_seg7x16/seg7_clk                       |                                     | U_seg7x16/rst_CPU            |                2 |              3 |
-| ~U_MIPS/U_Ctrl/Ctrl_alu_reg[3]_i_4_n_1    |                                     |                              |                3 |              6 |
-|  U_MIPS/U_Ctrl/Ctrl_regDst_reg[0]_i_2_n_1 |                                     |                              |                3 |              6 |
-|  clk_CPU_BUFG                             | U_MIPS/tmp_import[3]_i_2_n_1        | U_MIPS/tmp_import[3]_i_1_n_1 |               17 |             27 |
+|  U_MIPS/U_Ctrl/Ctrl_regDst_reg[0]_i_2_n_1 |                                     |                              |                5 |              6 |
+| ~U_MIPS/U_Ctrl/Ctrl_alu_reg[3]_i_4_n_1    |                                     |                              |                2 |              6 |
+|  clk_CPU_BUFG                             | U_MIPS/tmp_import[3]_i_2_n_1        | U_MIPS/tmp_import[3]_i_1_n_1 |               12 |             27 |
 |  clk_CPU_BUFG                             |                                     | U_seg7x16/rst_CPU            |               21 |             31 |
-|  n_0_607_BUFG                             |                                     |                              |               48 |             78 |
-|  clk_IBUF_BUFG                            |                                     | U_seg7x16/rst_CPU            |               26 |             84 |
+|  n_0_672_BUFG                             |                                     |                              |               53 |             78 |
+|  clk_IBUF_BUFG                            |                                     | U_seg7x16/rst_CPU            |               24 |             84 |
 |  clk_CPU_BUFG                             | U_MIPS/U_Ctrl/p_0_in__0             |                              |               12 |             96 |
 |  clk_CPU_BUFG                             | U_MIPS/U_ALU/i_data_store_reg[31]_0 |                              |               32 |            128 |
 |  clk_CPU_BUFG                             | U_MIPS/U_ALU/i_data_store_reg[31]_1 |                              |               32 |            128 |

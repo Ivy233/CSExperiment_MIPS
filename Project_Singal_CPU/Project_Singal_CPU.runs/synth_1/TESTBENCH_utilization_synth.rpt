@@ -1,7 +1,7 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2017.1 (win64) Build 1846317 Fri Apr 14 18:55:03 MDT 2017
-| Date         : Wed Apr 17 21:29:03 2019
+| Date         : Sat Apr 20 18:36:20 2019
 | Host         : DESKTOP-G0OA7IA running 64-bit major release  (build 9200)
 | Command      : report_utilization -file TESTBENCH_utilization_synth.rpt -pb TESTBENCH_utilization_synth.pb
 | Design       : TESTBENCH
@@ -153,17 +153,16 @@ Table of Contents
 | MUXF7    |  548 |               MuxFx |
 | LUT5     |  152 |                 LUT |
 | FDCE     |  109 |        Flop & Latch |
-| LUT4     |  107 |                 LUT |
+| LUT4     |  106 |                 LUT |
 | LUT1     |  106 |                 LUT |
 | LUT3     |   92 |                 LUT |
 | LDCE     |   90 |        Flop & Latch |
 | RAMD32   |   72 |  Distributed Memory |
 | CARRY4   |   50 |          CarryLogic |
-| LUT2     |   38 |                 LUT |
+| LUT2     |   39 |                 LUT |
+| OBUF     |   32 |                  IO |
 | FDRE     |   27 |        Flop & Latch |
 | RAMS32   |   24 |  Distributed Memory |
-| OBUFT    |   16 |                  IO |
-| OBUF     |   16 |                  IO |
 | FDPE     |    9 |        Flop & Latch |
 | IBUF     |    8 |                  IO |
 | BUFG     |    3 |               Clock |

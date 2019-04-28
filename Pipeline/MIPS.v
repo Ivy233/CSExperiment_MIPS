@@ -13,7 +13,7 @@ module MIPS();
     //EX
     wire[31:0] EX_Ext_imm_16, EX_alu_out;
     wire[31:0] EX_reg_out1,EX_reg_out2;
-    wire[4:0] EX_shamt;
+    wire[4:0] EX_shamt, EX_Rs, EX_Rt, EX_Rd;
         //EX:Ctrl
         wire[3:0] EX_Ctrl_alu;
         wire[1:0] EX_Ctrl_aluSrcA, EX_Ctrl_aluSrcB;
@@ -24,7 +24,7 @@ module MIPS();
         //ME:Ctrl
         wire ME_Ctrl_Mem2Reg, ME_Ctrl_MemWr, ME_Ctrl_regWr;
     //WB
-    wire[31:0] WB_reg_write_data, WB_alu_out, WB_mem_out;
+    wire[31:0] WB_alu_out, WB_mem_out;
     wire[4:0] WB_reg_write_import;
         //WB:Ctrl
         wire WB_Ctrl_Mem2Reg, WB_Ctrl_regWr;
@@ -37,7 +37,8 @@ module MIPS();
     initial begin
         $readmemh("others/Instr_MIPS_Pipeline.txt", U_Instr_Mem.Instrs);
         clk = 1;
-        rst = 1;
+        rst = 0;
+        #5 rst = 1;
         #20 rst = 0;
     end
     always #50 clk = ~clk;
@@ -110,14 +111,14 @@ module MIPS();
         .a(ID_reg_out1),
         .b(EX_alu_out),
         .c(ME_alu_out),
-        .d(WB_reg_write_data),
+        .d(U_Mem2Reg.out),
         .Ctrl(ForwardC)
     );
     MUX #(32) U_ForwardD(
         .a(ID_reg_out2),
         .b(EX_alu_out),
         .c(ME_alu_out),
-        .d(WB_reg_write_data),
+        .d(U_Mem2Reg.out),
         .Ctrl(ForwardD)
     );
     Equal U_Equal(
@@ -171,7 +172,7 @@ module MIPS();
     );
     MUX #(32) U_ForwardA(
         .a(EX_reg_out1),
-        .b(WB_reg_write_data),
+        .b(U_Mem2Reg.out),
         .c(ME_alu_out),
         .Ctrl(ForwardA)
     );
@@ -183,7 +184,7 @@ module MIPS();
     );
     MUX #(32) U_ForwardB(
         .a(EX_reg_out2),
-        .b(WB_reg_write_data),
+        .b(U_Mem2Reg.out),
         .c(ME_alu_out),
         .Ctrl(ForwardB)
     );
@@ -197,23 +198,6 @@ module MIPS();
         .input2(U_ALUSrcB.out),
         .aluop(EX_Ctrl_alu),
         .out(EX_alu_out)
-    );
-
-    Forward U_Forward(
-        .ID_Rs(ID_instr[25:21]),
-        .ID_Rt(ID_instr[20:16]),
-        .EX_Rs(EX_Rs),
-        .EX_Rt(EX_Rt),
-        .EX_writeimport(U_RegDst.out),
-        .ME_writeimport(ME_reg_write_import),
-        .WB_writeimport(WB_reg_write_import),
-        .EXRegWr(EX_Ctrl_regWr),
-        .MERegWr(ME_Ctrl_regWr),
-        .WBRegWr(WB_Ctrl_regWr),
-        .ForwardA(ForwardA),
-        .ForwardB(ForwardB),
-        .ForwardC(ForwardC),
-        .ForwardD(ForwardD)
     );
 
     EX_ME U_EXME(
@@ -261,5 +245,22 @@ module MIPS();
         .a(WB_alu_out),
         .b(WB_mem_out),
         .Ctrl({1'b0,WB_Ctrl_Mem2Reg})
+    );
+
+    Forward U_Forward(
+        .ID_Rs(ID_instr[25:21]),
+        .ID_Rt(ID_instr[20:16]),
+        .EX_Rs(EX_Rs),
+        .EX_Rt(EX_Rt),
+        .EX_writeimport(U_RegDst.out),
+        .ME_writeimport(ME_reg_write_import),
+        .WB_writeimport(WB_reg_write_import),
+        .EXRegWr(EX_Ctrl_regWr),
+        .MERegWr(ME_Ctrl_regWr),
+        .WBRegWr(WB_Ctrl_regWr),
+        .ForwardA(ForwardA),
+        .ForwardB(ForwardB),
+        .ForwardC(ForwardC),
+        .ForwardD(ForwardD)
     );
 endmodule //

@@ -6,31 +6,32 @@ module ME_WB(
     input[4:0] regin3,
     input mem2regin,
     input regwrin,
-    output[31:0] regout1,
-    output[31:0] regout2,
-    output[4:0] regout3,
-    output mem2regout,
-    output regwrout
+    output reg[31:0] regout1,
+    output reg[31:0] regout2,
+    output reg[4:0] regout3,
+    output reg mem2regout,
+    output reg regwrout
 );
-    reg[70:0] TMP_reg;
-
     initial begin
-        TMP_reg <= 0;
+        regout1 <= 0;
+        regout2 <= 0;
+        regout3 <= 0;
+        mem2regout <= 0;
+        regwrout <= 0;
     end
     always @(posedge rst) begin
-        TMP_reg <= 0;
+        regout1 <= 0;
+        regout2 <= 0;
+        regout3 <= 0;
+        mem2regout <= 0;
+        regwrout <= 0;
     end
 
-    assign regout1 = TMP_reg[70:39];
-    assign regout2 = TMP_reg[38:7];
-    assign regout3 = TMP_reg[6:2];
-    assign mem2regout = TMP_reg[1];
-    assign regwrout = TMP_reg[0];
-
     always @(posedge clk) begin
-        TMP_reg <= {
-            regin1, regin2, regin3,
-            mem2regin, regwrin
-        };
+        regout1 <= regin1;
+        regout2 <= regin2;
+        regout3 <= regin3;
+        mem2regout <= mem2regin;
+        regwrout <= regwrin;
     end
 endmodule // ME_WB_Reg

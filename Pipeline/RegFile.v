@@ -9,9 +9,11 @@ module RegFile(
     output[31:0] regfile_out2
 );
     reg[31:0] register[0:31];
-
+    integer i;
     initial begin
-        register[0] <= 0;
+        for (i = 0; i < 32; i = i + 1)begin
+            register[i] <= 0;
+        end
     end
 
     assign regfile_out1 = (readimport1 != 0) ? register[readimport1] : 0;

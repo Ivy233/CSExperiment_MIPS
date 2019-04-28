@@ -1,14 +1,15 @@
 module MIPS();
     //IF
-    wire[31:0] IF_instr, IF_pc_cur, IF_pc_next;
+    wire[31:0] IF_instr, IF_pc;
     //ID
-    wire[31:0] ID_pc_cur, ID_instr;
+    wire[31:0] ID_pc, ID_instr;
     wire[31:0] ID_Ext_imm_16, ID_reg_out1, ID_reg_out2;
         //ID:Ctrl
         wire[4:0] ID_Ctrl_alu;
         wire[1:0] ID_Ctrl_aluSrcA, ID_Ctrl_aluSrcB;
         wire[1:0] ID_Ctrl_branch;
         wire ID_Ctrl_Mem2Reg, ID_Ctrl_MemWr, ID_Ctrl_ext, ID_Ctrl_jump, ID_Ctrl_regDst, ID_Ctrl_regWr;
+        wire ID_hazard, ID_Condition;
     //EX
     wire[31:0] EX_Ext_imm_16;
     wire[31:0] EX_alu_in1, EX_alu_in2, EX_alu_out;
@@ -18,19 +19,20 @@ module MIPS();
         //EX:Ctrl
         wire[3:0] EX_Ctrl_alu;
         wire[1:0] EX_Ctrl_aluSrcA, EX_Ctrl_aluSrcB;
-        wire[1:0] EX_Ctrl_branch;
-        wire EX_Ctrl_Mem2Reg, EX_Ctrl_MemWr, EX_Ctrl_alures, EX_Ctrl_regDst, EX_Ctrl_regWr;
+        wire EX_Ctrl_Mem2Reg, EX_Ctrl_MemWr, EX_Ctrl_regDst, EX_Ctrl_regWr;
     //ME
-    wire[31:0] ME_Mem_out, ME_alu_out, ME_branchToWhere, ME_mem_write_data, Mem_out;
+    wire[31:0] ME_Mem_out, ME_alu_out, ME_mem_write_data;
     wire[4:0] ME_reg_write_import;
         //ME:Ctrl
-        wire[1:0] ME_Ctrl_branch;
-        wire ME_Ctrl_Mem2Reg, ME_Ctrl_MemWr, ME_Ctrl_alures, ME_Ctrl_regWr;
+        wire ME_Ctrl_Mem2Reg, ME_Ctrl_MemWr, ME_Ctrl_regWr;
     //WB
-    wire[31:0] WB_reg_write_data, WB_reg_write_data1, WB_reg_write_data2;
+    wire[31:0] WB_reg_write_data, WB_alu_out, WB_mem_out;
     wire[4:0] WB_reg_write_import;
         //WB:Ctrl
         wire WB_Ctrl_Mem2Reg, WB_Ctrl_regWr;
+
+    //
+    wire[1:0] ForwardA, ForwardB, ForwardC, ForwardD;
 
     //clk & rst
     reg clk, reset;
@@ -42,193 +44,206 @@ module MIPS();
     end
     always #50 clk = ~clk;
 
-    //Units
-    //ID
-    Next_PC U_Next_PC(
-        .clk(clk),//1
-        .rst(reset),//1
-        //nothing:+4
-        //jump:j
-        .Ctrl_jump(ID_Ctrl_jump),//1
-        .jumpToWhere({ID_pc_cur[31:28], ID_instr[25:0], 2'b00}),//32
-        //branch:beq,bne
-        .Ctrl_branch(ME_Ctrl_branch),//1
-        .Ctrl_alures(ME_Ctrl_alures),//1
-        .branchToWhere(ME_branchToWhere),//32
-        //out
-        .pc_cur(IF_pc_cur)//32: have been increased by 4
+    PC U_PC(
+        .clk(clk),
+        .rst(rst),
+        .hazard(ID_hazard),
+        //jump
+        .jump(ID_Ctrl_jump),
+        .jump2where({ID_pc[31:28], ID_instr[25:0], 2'b00}),
+        //branch
+        .branch((ID_Ctrl_branch == 2'b01 && ID_Condition == 1'b1)
+                || (ID_Ctrl_branch == 2'b10 && ID_Condition == 1'b0)),//beq || bne
+        .branch2where(ID_pc + {{14{ID_instr[15]}}, ID_instr, 2'b00}),
+        .pc(IF_pc),
     );
     Instr_Mem U_Instr_Mem(
-        .pc_cur(IF_pc_cur[11:2]),//10
-        //out
-        .instr(IF_instr)//32
+        .pc(IF_pc[11:2]),
+        .instr(IF_instr),
     );
 
+    IF_ID U_IFID(
+        .clk(clk),
+        .rst(rst),
+        .hazard(ID_hazard),
 
-    //IF_ID
-    IF_ID_Reg U_IF_ID_Reg(
-        .clk(clk),//1
-        .rst(reset),//1
-        .reg_in1(IF_pc_cur + 3'b100),//32
-        .reg_in2(IF_instr),//32
-        //out
-        .reg_out1(ID_pc_cur),//32
-        .reg_out2(ID_instr)//32
+        .regin1(IF_pc),
+        .regin2(IF_instr),
+
+        .regout1(ID_pc),
+        .regout2(ID_instr)
     );
-    //ID
+    RegFile U_RegFile(
+        .clk(clk),
+        .rst(rst),
+        .Writedata(U_Mem2Reg.out),
+        .regWr(WB_Ctrl_regWr),
+        .writeimport(WB_reg_write_import),
+        .readimport1(ID_instr[25:21]),
+        .readimport2(ID_instr[20:16]),
+        .regfile_out1(ID_reg_out1),
+        .regfile_out2(ID_reg_out2)
+    );
+    Hazard U_Hazard(
+        .jump(ID_Ctrl_jump),
+        .branch(U_PC.branch),
+        .IF_Rs(IF_instr[25:21]),
+        .IF_Rt(IF_instr[20:16]),
+        .ID_Rt(ID_instr[20:16]),
+        .hazard(ID_hazard)
+    );
     Ctrl U_Ctrl(
-        .op(ID_instr[31:26]),//6
-        .funct(ID_instr[5:0]),//6
-        //out
-        .Ctrl_alu(ID_Ctrl_alu),//4
-        .Ctrl_regDst(ID_Ctrl_regDst),//1
-        .Ctrl_aluSrcA(ID_Ctrl_aluSrcA),//2
-        .Ctrl_aluSrcB(ID_Ctrl_aluSrcB),//2
-        .Ctrl_Mem2Reg(ID_Ctrl_Mem2Reg),//1
-        .Ctrl_ext(ID_Ctrl_ext),//1
-        .Ctrl_regWr(ID_Ctrl_regWr),//1
-        .Ctrl_MemWr(ID_Ctrl_MemWr),//1
-        .Ctrl_branch(ID_Ctrl_branch),//2
-        .Ctrl_jump(ID_Ctrl_jump)//1
+        .op(ID_instr[31:26]),
+        .funct(ID_instr[5:0]),
+        //output
+        .Ctrl_alu(ID_Ctrl_alu),
+        .Ctrl_regDst(ID_Ctrl_regDst),
+        .Ctrl_aluSrcA(ID_Ctrl_aluSrcA),
+        .Ctrl_aluSrcB(ID_Ctrl_aluSrcB),
+        .Ctrl_Mem2Reg(ID_Ctrl_Mem2Reg),
+        .Ctrl_ext(ID_Ctrl_ext),
+        .Ctrl_regWr(ID_Ctrl_regWr),
+        .Ctrl_MemWr(ID_Ctrl_MemWr)
+    );
+
+    MUX #(32) U_ForwardC(
+        .a(ID_reg_out1),
+        .b(EX_alu_out),
+        .c(ME_alu_out),
+        .d(WB_reg_write_data),
+        .Ctrl(ForwardC),
+    );
+    MUX #(32) U_ForwardD(
+        .a(ID_reg_out2),
+        .b(EX_alu_out),
+        .c(ME_alu_out),
+        .d(WB_reg_write_data),
+        .Ctrl(ForwardD),
+    );
+    Condition U_Condition(
+        .input1(U_ForwardC.out),
+        .input2(U_ForwardD.out),
+        .equal(ID_Condition)
     );
     Ext U_Ext(
-        .imm_16(ID_instr[15:0]),//16
-        .Ctrl_ext(ID_Ctrl_ext),//1
-        //out
-        .out_imm_32(ID_Ext_imm_16)//31
+        .input0(ID_instr[15:0]),
+        .op(ID_Ctrl_ext),
+        .out(ID_Ext_imm_16)
     );
-    RegFile U_Regfile(
-        .clk(clk),//1
-        .Read_import1(ID_instr[25:21]),//5
-        .Read_import2(ID_instr[20:16]),//5
-        .Write_import(WB_reg_write_import),//5
-        .Write_data(WB_reg_write_data),//32
-        .Ctrl_regWr(WB_Ctrl_regWr),//1
-        //out
-        .Rout1(ID_reg_out1),//32
-        .Rout2(ID_reg_out2)//32
+    ID_EX U_IDEX(
+        .clk(clk),
+        .rst(rst),
+
+        .regin1(ID_reg_out1),
+        .regin2(ID_reg_out2),
+        .regin3(ID_Ext_imm_16),
+        .regin4(ID_instr[25:21]),
+        .regin5(ID_instr[20:16]),
+        .regin6(ID_instr[15:11]),
+        .regin7(ID_instr[10:6]),
+        .regdstin(ID_Ctrl_regDst),
+        .aluopin(ID_Ctrl_alu),
+        .alusrcain(ID_Ctrl_aluSrcA),
+        .alusrcbin(ID_Ctrl_aluSrcB),
+        .mem2regin(ID_Ctrl_Mem2Reg),
+        .regwrin(ID_Ctrl_regWr),
+        .memwrin(ID_Ctrl_MemWr)
+
+        .regout1(EX_reg_out1),
+        .regout2(EX_reg_out2),
+        .regout3(EX_Ext_imm_16),
+        .regout4(EX_Rs),
+        .regout5(EX_Rt),
+        .regout6(EX_Rd),
+        .regout7(EX_shamt),
+        .regdstout(EX_Ctrl_regDst),
+        .aluopout(EX_Ctrl_alu),
+        .alusrcaout(EX_Ctrl_aluSrcA),
+        .alusrcbout(EX_Ctrl_aluSrcB),
+        .mem2regout(EX_Ctrl_Mem2Reg),
+        .regwrout(EX_Ctrl_regWr),
+        .memwrout(EX_Ctrl_MemWr)
     );
-    //ID_EX
-    ID_EX_Reg U_ID_EX_Reg(
-        .clk(clk),//1
-        .rst(reset),//1
-        .reg_in1(ID_reg_out1),//32
-        .reg_in2(ID_reg_out2),//32
-        .reg_in3(ID_instr[20:16]),//5
-        .reg_in4(ID_instr[15:11]),//5
-        .reg_in5(ID_instr[10:6]),//5
-        .reg_in6(ID_pc_cur),//32
-        .Ctrl_alu_in(ID_Ctrl_alu),//4
-        .Ctrl_regDst_in(ID_Ctrl_regDst),//1
-        .Ctrl_aluSrcA_in(ID_Ctrl_aluSrcA),//2
-        .Ctrl_aluSrcB_in(ID_Ctrl_aluSrcB),//2
-        .Ctrl_Mem2Reg_in(ID_Ctrl_Mem2Reg),//1
-        .Ctrl_regWr_in(ID_Ctrl_regWr),//1
-        .Ctrl_MemWr_in(ID_Ctrl_MemWr),//1
-        .Ctrl_branch_in(ID_Ctrl_branch),//1
-        //out
-        .reg_out1(EX_reg_out1),//32
-        .reg_out2(EX_reg_out2),//32
-        .reg_out3(EX_reg_write_import1),//5
-        .reg_out4(EX_reg_write_import2),//5
-        .reg_out5(EX_shamt),//5
-        .reg_out6(EX_pc_cur),//32
-        .Ctrl_alu_out(EX_Ctrl_alu),//4
-        .Ctrl_regDst_out(EX_Ctrl_regDst),//1
-        .Ctrl_aluSrcA_out(EX_Ctrl_aluSrcA),//2
-        .Ctrl_aluSrcB_out(EX_Ctrl_aluSrcB),//2
-        .Ctrl_Mem2Reg_out(EX_Ctrl_Mem2Reg),//1
-        .Ctrl_regWr_out(EX_Ctrl_regWr),//1
-        .Ctrl_MemWr_out(EX_Ctrl_MemWr),//1
-        .Ctrl_branch_out(EX_Ctrl_branch)//1
+    MUX #(5) U_RegDst(
+        .a(EX_Rt),
+        .b(EX_Rd),
+        .Ctrl({1'b0,EX_Ctrl_regDst})
     );
-    //EX
-    MUX #(5) Choose_Rt_Rd(
-        .a(EX_reg_write_import1),//rt,5
-        .b(EX_reg_write_import2),//rd,5
-        .Ctrl_MUX({1'b0, EX_Ctrl_regDst}),//1
-        //out
-        .MUX_out(EX_reg_write_import)//5
+    MUX #(32) U_ForwardA(
+        .a(EX_reg_out1),
+        .b(WB_reg_write_data),
+        .c(ME_alu_out),
+        .Ctrl(ForwardA),
     );
-    MUX #(32) choose_aluin1(
-        .a(EX_reg_out1),//32
-        .b(32'h00000010),//lui,32
-        .c({ {27{1'b0}}, shamt}),//32
-        .Ctrl_MUX(EX_Ctrl_aluSrcA),//2
-        //out
-        .MUX_out(EX_alu_in1)//32
+    MUX #(32) U_ALUSrcA(
+        .a(U_ForwardA.out),
+        .b(32'h00000010),//lui
+        .c({{27{1'b0}}, EX_shamt}),
+        .Ctrl(EX_Ctrl_aluSrcA),
     );
-    MUX #(32) choose_aluin2(
-        .a(EX_reg_out2),//32
-        .b(EX_Ext_imm_16),//32
-        .Ctrl_MUX(EX_Ctrl_aluSrcB),//2
-        //out
-        .MUX_out(EX_alu_in2)//32
+    MUX #(32) U_ForwardB(
+        .a(EX_reg_out2),
+        .b(WB_reg_write_data),
+        .c(ME_alu_out),
+        .Ctrl(ForwardB)
+    );
+    MUX #(32) U_ALUSrcB(
+        .a(U_ForwardB.out),
+        .b(EX_Ext_imm_16),
+        .Ctrl(EX_Ctrl_aluSrcB),
+    );
+    ALU U_ALU(
+        .input1(U_ALUSrcA.out),
+        .input2(U_ALUSrcB.out),
+        .aluop(EX_Ctrl_alu),
+        .out(EX_alu_out)
     );
 
-    ALU U_ALU(
-        .in1(EX_alu_in1),//32
-        .in2(EX_alu_in2),//32
-        .Ctrl_alu(EX_Ctrl_alu),//4
-        //out
-        .ALU_out(EX_alu_out),//32
-        .zero(EX_Ctrl_alures)//1
+    EX_ME U_EXME(
+        .clk(clk),
+        .rst(rst),
+
+        .regin1(EX_alu_out),
+        .regin2(U_ForwardB.out),
+        .regin3(U_RegDst.out),
+        .mem2regin(EX_Ctrl_Mem2Reg),
+        .memwrin(EX_Ctrl_MemWr),
+        .regwrin(EX_Ctrl_regWr),
+
+        .regout1(ME_alu_out),
+        .regout2(ME_mem_write_data),
+        .regout2(ME_reg_write_import),
+        .mem2regout(ME_Ctrl_Mem2Reg),
+        .memwrout(ME_Ctrl_MemWr),
+        .regwrout(ME_Ctrl_regWr),
     );
-    //EX_ME
-    EX_ME_Reg U_EX_ME_Reg(
-        .clk(clk),//1
-        .rst(reset),//1
-        .reg_in1(EX_alu_out),//32
-        .reg_in2(EX_reg_write_import),//5
-        .reg_in3(EX_reg_out2),//32
-        .reg_in4(EX_pc_cur + {EX_Ext_imm_16[29:0], 2'b00}),//32
-        .Ctrl_Mem2Reg_in(EX_Ctrl_Mem2Reg),//1
-        .Ctrl_regWr_in(EX_Ctrl_regWr),//1
-        .Ctrl_MemWr_in(EX_Ctrl_MemWr),//1
-        .Ctrl_branch_in(EX_Ctrl_branch),//1
-        .Ctrl_alures_in(EX_Ctrl_alures),//1
-        //out
-        .reg_out1(ME_alu_out),//32
-        .reg_out2(ME_reg_write_import),//5
-        .reg_out3(ME_mem_write_data),//32
-        .reg_out4(ME_branchToWhere),//32
-        .Ctrl_Mem2Reg_out(ME_Ctrl_Mem2Reg),//1
-        .Ctrl_regWr_out(ME_Ctrl_regWr),//1
-        .Ctrl_MemWr_out(ME_Ctrl_MemWr),//1
-        .Ctrl_branch_out(ME_Ctrl_branch),//1
-        .Ctrl_alures_out(ME_Ctrl_alures)//1
-    );
-    //ME
     Mem U_Mem(
         .clk(clk),
-        .in_pos(ME_alu_out),
-        .in_data(ME_mem_write_data),
-        .Ctrl_MemWr(ME_Ctrl_MemWr),
-        //out
-        .Mem_out(ME_Mem_out)//out
-    );
-    //ME_WB
-    ME_WB_Reg U_ME_WB_Reg(
-        .clk(clk),//1
-        .rst(reset),//1
-        .reg_in1(ME_alu_out),//32
-        .reg_in2(ME_Mem_out),//32
-        .reg_in3(ME_reg_write_import),//5
-        .Ctrl_Mem2Reg_in(ME_Ctrl_Mem2Reg),//1
-        .Ctrl_regWr_in(ME_Ctrl_regWr),//1
-        //out
-        .reg_out1(WB_reg_write_data1),//32
-        .reg_out2(WB_reg_write_data2),//5
-        .reg_out3(WB_reg_write_import),//32
-        .Ctrl_Mem2Reg_out(WB_Ctrl_Mem2Reg),//1
-        .Ctrl_regWr_out(WB_Ctrl_regWr)//1
-    );
-    //WB
-    MUX #(32) choose_writeBack(
-        .a(WB_reg_write_data1),
-        .b(WB_reg_write_data1),
-        .Ctrl_MUX({1'b0,WB_Ctrl_Mem2Reg}),
-        .MUX_out(WB_reg_write_data)
-    );
+        .rst(rst),
+        .import(ME_alu_out),
+        .write_data(ME_mem_write_data),
+        .memWr(ME_Ctrl_MemWr),
 
+        .read_out(ME_Mem_out),
+    );
+    ME_WB U_MEWB(
+        .clk(clk),
+        .rst(rst),
+        .regin1(ME_alu_out),
+        .regin2(ME_Mem_out),
+        .regin3(ME_reg_write_import),
+        .mem2regin(ME_Ctrl_Mem2Reg),
+        .regwrin(ME_Ctrl_regWr),
+
+        .regout1(WB_alu_out),
+        .regout2(WB_mem_out),
+        .regout3(WB_reg_write_import),
+        .mem2regout(WB_Ctrl_Mem2Reg)
+        .regwrout(WB_Ctrl_regWr),
+    );
+    MUX #(32) U_Mem2Reg(
+        .a(WB_alu_out),
+        .b(WB_mem_out),
+        .Ctrl({1'b0,WB_Ctrl_Mem2Reg}),
+    );
 endmodule //

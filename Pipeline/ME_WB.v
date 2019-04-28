@@ -1,24 +1,24 @@
-module ME_WB_Reg(
+module ME_WB(
     input clk,
     input rst,
-    input[31:0] reg_in1,
-    input[31:0] reg_in2,
-    input[4:0] reg_in3,
-    input Ctrl_Mem2Reg_in,
-    input Ctrl_regWr_in,
+    input[31:0] regin1,
+    input[31:0] regin2,
+    input[4:0] regin3,
+    input mem2regin,
+    input regwrin,
     output[31:0] reg_out1,
     output[31:0] reg_out2,
     output[4:0] reg_out3,
-    output Ctrl_Mem2Reg_out,
-    output Ctrl_regWr_out
+    output mem2regout,
+    output regwrout
 );
     reg[70:0] TMP_reg;
 
     initial begin
-        TMP_reg = 0;
+        TMP_reg <= 0;
     end
     always @(posedge rst) begin
-        TMP_reg = 0;
+        TMP_reg <= 0;
     end
 
     assign reg_out1 = TMP_reg[70:39];
@@ -28,9 +28,9 @@ module ME_WB_Reg(
     assign Ctrl_regWr_out = TMP_reg[0];
 
     always @(posedge clk) begin
-        TMP_reg = {
-            reg_in1, reg_in2, reg_in3,
-            Ctrl_Mem2Reg_in, Ctrl_regWr_in
+        TMP_reg <= {
+            regin1, regin2, regin3,
+            mem2regin, regwrin
         };
     end
 endmodule // ME_WB_Reg

@@ -1,7 +1,9 @@
-module ALU(input1, input2, Ctrl_alu, ALU_output);
-    input[31:0] input1,input2;
-    input[3:0] Ctrl_alu;
-    output reg[31:0] ALU_output;
+module ALU(
+    input[31:0] input1,
+    input[31:0] input2,
+    input[3:0] Ctrl_alu,
+    output reg[31:0] ALU_output
+);
 
     always@(Ctrl_alu or input1 or input2) begin
         case (Ctrl_alu)

@@ -3,8 +3,7 @@ module Next_PC(
     input rst,
     input Ctrl_jump,
     input[31:0] jumpToWhere,
-    input[1:0] Ctrl_branch,
-    input Ctrl_alures,
+    input Ctrl_branch,
     input[31:0] branchToWhere,
     output reg[31:0] pc_cur
 );
@@ -15,12 +14,15 @@ module Next_PC(
         if(Ctrl_jump == 1'b1) begin
             pc_cur = jumpToWhere;
         end//j
-        else if(Ctrl_branch == 2'b01 && Ctrl_alures == 1'b1)begin
+        else if(Ctrl_branch)begin
+            pc_cur = branchToWhere;
+        end
+        /*else if(Ctrl_branch == 2'b01 && Ctrl_alures == 1'b1)begin
             pc_cur = branchToWhere;
         end//beq
         else if(Ctrl_branch == 2'b10 && Ctrl_alures == 1'b0)begin
             pc_cur = branchToWhere;
-        end//bne
+        end//bne*/
         else begin
             pc_cur = pc_cur + 3'b100;
         end//other

@@ -1,4 +1,4 @@
-module ID_EX_Reg(
+module ID_EX(
     input clk,
     input rst,
     input[31:0] regin1,
@@ -29,7 +29,7 @@ module ID_EX_Reg(
     output[1:0] alusrcbout,
     output mem2regout,
     output regwrout,
-    output memwrout,
+    output memwrout
 );
     reg[127:0] TMP_reg;
 

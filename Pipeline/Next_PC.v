@@ -1,30 +1,30 @@
 module Next_PC(
     input clk,
     input rst,
-    input Ctrl_jump,
-    input[31:0] jumpToWhere,
-    input Ctrl_branch,
-    input[31:0] branchToWhere,
-    output reg[31:0] pc_cur
+    input hazard,
+    input jump,
+    input[31:0] jump2where,
+    input branch,
+    input[31:0] branch2where,
+    output reg[31:0] pc
 );
     always @(posedge rst) begin
-        pc_cur = 32'h00003000;
+        if(rst)begin
+            pc <= 32'h00003000;
+        end
     end
     always @(posedge clk) begin
-        if(Ctrl_jump == 1'b1) begin
-            pc_cur = jumpToWhere;
+        if(jump == 1'b1) begin
+            pc <= jump2where;
         end//j
-        else if(Ctrl_branch)begin
-            pc_cur = branchToWhere;
+        else if(branch)begin
+            pc <= branch2where;
         end
-        /*else if(Ctrl_branch == 2'b01 && Ctrl_alures == 1'b1)begin
-            pc_cur = branchToWhere;
-        end//beq
-        else if(Ctrl_branch == 2'b10 && Ctrl_alures == 1'b0)begin
-            pc_cur = branchToWhere;
-        end//bne*/
+        else if(hazard)begin
+            pc <= pc;
+        end
         else begin
-            pc_cur = pc_cur + 3'b100;
+            pc <= pc + 3'b100;
         end//other
     end
 endmodule // Next_PC

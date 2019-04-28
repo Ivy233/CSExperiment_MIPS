@@ -5,16 +5,14 @@ module MIPS();
     wire[31:0] ID_pc, ID_instr;
     wire[31:0] ID_Ext_imm_16, ID_reg_out1, ID_reg_out2;
         //ID:Ctrl
-        wire[4:0] ID_Ctrl_alu;
+        wire[3:0] ID_Ctrl_alu;
         wire[1:0] ID_Ctrl_aluSrcA, ID_Ctrl_aluSrcB;
         wire[1:0] ID_Ctrl_branch;
         wire ID_Ctrl_Mem2Reg, ID_Ctrl_MemWr, ID_Ctrl_ext, ID_Ctrl_jump, ID_Ctrl_regDst, ID_Ctrl_regWr;
         wire ID_hazard, ID_Condition;
     //EX
-    wire[31:0] EX_Ext_imm_16;
-    wire[31:0] EX_alu_in1, EX_alu_in2, EX_alu_out;
+    wire[31:0] EX_Ext_imm_16, EX_alu_out;
     wire[31:0] EX_reg_out1,EX_reg_out2;
-    wire[4:0] EX_reg_write_import1, EX_reg_write_import2, EX_reg_write_import;
     wire[4:0] EX_shamt;
         //EX:Ctrl
         wire[3:0] EX_Ctrl_alu;
@@ -35,16 +33,16 @@ module MIPS();
     wire[1:0] ForwardA, ForwardB, ForwardC, ForwardD;
 
     //clk & rst
-    reg clk, reset;
+    reg clk, rst;
     initial begin
-        $readmemh("others/Bubble_sort.txt", U_Instr_Mem.Instrs);
+        $readmemh("others/Instr_MIPS_Pipeline.txt", U_Instr_Mem.Instrs);
         clk = 1;
-        reset = 1;
-        #20 reset = 0;
+        rst = 1;
+        #20 rst = 0;
     end
     always #50 clk = ~clk;
 
-    PC U_PC(
+    Next_PC U_Next_PC(
         .clk(clk),
         .rst(rst),
         .hazard(ID_hazard),
@@ -54,12 +52,12 @@ module MIPS();
         //branch
         .branch((ID_Ctrl_branch == 2'b01 && ID_Condition == 1'b1)
                 || (ID_Ctrl_branch == 2'b10 && ID_Condition == 1'b0)),//beq || bne
-        .branch2where(ID_pc + {{14{ID_instr[15]}}, ID_instr, 2'b00}),
-        .pc(IF_pc),
+        .branch2where(ID_pc + {{14{ID_instr[15]}}, ID_instr[15:0], 2'b00}),
+        .pc(IF_pc)
     );
     Instr_Mem U_Instr_Mem(
         .pc(IF_pc[11:2]),
-        .instr(IF_instr),
+        .instr(IF_instr)
     );
 
     IF_ID U_IFID(
@@ -75,7 +73,6 @@ module MIPS();
     );
     RegFile U_RegFile(
         .clk(clk),
-        .rst(rst),
         .Writedata(U_Mem2Reg.out),
         .regWr(WB_Ctrl_regWr),
         .writeimport(WB_reg_write_import),
@@ -86,7 +83,8 @@ module MIPS();
     );
     Hazard U_Hazard(
         .jump(ID_Ctrl_jump),
-        .branch(U_PC.branch),
+        .branch(U_Next_PC.branch),
+        .mem2reg(ID_Ctrl_Mem2Reg),
         .IF_Rs(IF_instr[25:21]),
         .IF_Rt(IF_instr[20:16]),
         .ID_Rt(ID_instr[20:16]),
@@ -103,7 +101,9 @@ module MIPS();
         .Ctrl_Mem2Reg(ID_Ctrl_Mem2Reg),
         .Ctrl_ext(ID_Ctrl_ext),
         .Ctrl_regWr(ID_Ctrl_regWr),
-        .Ctrl_MemWr(ID_Ctrl_MemWr)
+        .Ctrl_MemWr(ID_Ctrl_MemWr),
+        .Ctrl_branch(ID_Ctrl_branch),
+        .Ctrl_jump(ID_Ctrl_jump)
     );
 
     MUX #(32) U_ForwardC(
@@ -111,16 +111,16 @@ module MIPS();
         .b(EX_alu_out),
         .c(ME_alu_out),
         .d(WB_reg_write_data),
-        .Ctrl(ForwardC),
+        .Ctrl(ForwardC)
     );
     MUX #(32) U_ForwardD(
         .a(ID_reg_out2),
         .b(EX_alu_out),
         .c(ME_alu_out),
         .d(WB_reg_write_data),
-        .Ctrl(ForwardD),
+        .Ctrl(ForwardD)
     );
-    Condition U_Condition(
+    Equal U_Equal(
         .input1(U_ForwardC.out),
         .input2(U_ForwardD.out),
         .equal(ID_Condition)
@@ -147,7 +147,7 @@ module MIPS();
         .alusrcbin(ID_Ctrl_aluSrcB),
         .mem2regin(ID_Ctrl_Mem2Reg),
         .regwrin(ID_Ctrl_regWr),
-        .memwrin(ID_Ctrl_MemWr)
+        .memwrin(ID_Ctrl_MemWr),
 
         .regout1(EX_reg_out1),
         .regout2(EX_reg_out2),
@@ -173,13 +173,13 @@ module MIPS();
         .a(EX_reg_out1),
         .b(WB_reg_write_data),
         .c(ME_alu_out),
-        .Ctrl(ForwardA),
+        .Ctrl(ForwardA)
     );
     MUX #(32) U_ALUSrcA(
         .a(U_ForwardA.out),
         .b(32'h00000010),//lui
         .c({{27{1'b0}}, EX_shamt}),
-        .Ctrl(EX_Ctrl_aluSrcA),
+        .Ctrl(EX_Ctrl_aluSrcA)
     );
     MUX #(32) U_ForwardB(
         .a(EX_reg_out2),
@@ -190,13 +190,30 @@ module MIPS();
     MUX #(32) U_ALUSrcB(
         .a(U_ForwardB.out),
         .b(EX_Ext_imm_16),
-        .Ctrl(EX_Ctrl_aluSrcB),
+        .Ctrl(EX_Ctrl_aluSrcB)
     );
     ALU U_ALU(
         .input1(U_ALUSrcA.out),
         .input2(U_ALUSrcB.out),
         .aluop(EX_Ctrl_alu),
         .out(EX_alu_out)
+    );
+
+    Forward U_Forward(
+        .ID_Rs(ID_instr[25:21]),
+        .ID_Rt(ID_instr[20:16]),
+        .EX_Rs(EX_Rs),
+        .EX_Rt(EX_Rt),
+        .EX_writeimport(U_RegDst.out),
+        .ME_writeimport(ME_reg_write_import),
+        .WB_writeimport(WB_reg_write_import),
+        .EXRegWr(EX_Ctrl_regWr),
+        .MERegWr(ME_Ctrl_regWr),
+        .WBRegWr(WB_Ctrl_regWr),
+        .ForwardA(ForwardA),
+        .ForwardB(ForwardB),
+        .ForwardC(ForwardC),
+        .ForwardD(ForwardD)
     );
 
     EX_ME U_EXME(
@@ -212,19 +229,18 @@ module MIPS();
 
         .regout1(ME_alu_out),
         .regout2(ME_mem_write_data),
-        .regout2(ME_reg_write_import),
+        .regout3(ME_reg_write_import),
         .mem2regout(ME_Ctrl_Mem2Reg),
         .memwrout(ME_Ctrl_MemWr),
-        .regwrout(ME_Ctrl_regWr),
+        .regwrout(ME_Ctrl_regWr)
     );
     Mem U_Mem(
         .clk(clk),
-        .rst(rst),
         .import(ME_alu_out),
         .write_data(ME_mem_write_data),
         .memWr(ME_Ctrl_MemWr),
 
-        .read_out(ME_Mem_out),
+        .read_out(ME_Mem_out)
     );
     ME_WB U_MEWB(
         .clk(clk),
@@ -238,12 +254,12 @@ module MIPS();
         .regout1(WB_alu_out),
         .regout2(WB_mem_out),
         .regout3(WB_reg_write_import),
-        .mem2regout(WB_Ctrl_Mem2Reg)
-        .regwrout(WB_Ctrl_regWr),
+        .mem2regout(WB_Ctrl_Mem2Reg),
+        .regwrout(WB_Ctrl_regWr)
     );
     MUX #(32) U_Mem2Reg(
         .a(WB_alu_out),
         .b(WB_mem_out),
-        .Ctrl({1'b0,WB_Ctrl_Mem2Reg}),
+        .Ctrl({1'b0,WB_Ctrl_Mem2Reg})
     );
 endmodule //

@@ -2,7 +2,7 @@ module ALU(
     input[31:0] input1,
     input[31:0] input2,
     input[3:0] aluop,
-    output reg[31:0] out,
+    output reg[31:0] out
 );
     always@(aluop or input1 or input2) begin
         case (aluop)

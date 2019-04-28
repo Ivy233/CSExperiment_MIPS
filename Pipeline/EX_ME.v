@@ -13,7 +13,7 @@ module EX_ME(
     output[4:0] regout3,
     output mem2regout,
     output memwrout,
-    output regwrout,
+    output regwrout
 );
     reg[71:0] TMP_reg;
 

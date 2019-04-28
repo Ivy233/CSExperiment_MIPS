@@ -43,6 +43,18 @@ module Ctrl(
 				SRL		= 6'b000010,
                 SRA		= 6'b000011;
 
+    initial begin
+        Ctrl_regDst <= 1'b0;
+        Ctrl_aluSrcB <= 2'b00;
+        Ctrl_Mem2Reg <= 1'b0;
+        Ctrl_ext <= 1'b0;//x
+        Ctrl_MemWr <= 1'b0;
+        Ctrl_regWr <= 1'b0;
+        Ctrl_branch <= 2'b00;
+        Ctrl_jump <= 1'b0;
+        Ctrl_aluSrcA <= 2'b00;
+        Ctrl_alu <= 4'b0000;
+    end
     always@(*)begin
         case (op)
             R:begin

@@ -19,7 +19,7 @@ module RegFile(
     assign regfile_out1 = (readimport1 != 0) ? register[readimport1] : 0;
     assign regfile_out2 = (readimport2 != 0) ? register[readimport2] : 0;
 
-    always @(posedge clk ) begin
+    always @(negedge clk ) begin
         if(regWr == 1'b1 && writeimport != 0)begin
             register[writeimport] = Writedata;
         end

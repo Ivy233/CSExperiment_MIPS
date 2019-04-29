@@ -9,7 +9,7 @@ module Mem(
     always@(*)begin
         read_out = data_memory[import[11:2]][31:0];
     end
-    always@(posedge clk)begin
+    always@(negedge clk)begin
         if(memWr == 1'b1)
             data_memory[import[11:2]][31:0] <= write_data[31:0];
         $display("M[00-07]=%8X, %8X, %8X, %8X, %8X, %8X, %8X, %8X", data_memory[0], data_memory[1], data_memory[2], data_memory[3], data_memory[4], data_memory[5], data_memory[6], data_memory[7]);

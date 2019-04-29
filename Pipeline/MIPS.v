@@ -66,7 +66,7 @@ module MIPS();
         .rst(rst),
         .hazard(ID_hazard),
 
-        .regin1(IF_pc),
+        .regin1(IF_pc + 3'b100),
         .regin2(IF_instr),
 
         .regout1(ID_pc),
